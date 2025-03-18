@@ -3,11 +3,11 @@
  * Programming Project for NCEA Level 3, Standard 91906
  * ---------------------------------------------------------------------
  * Project Name:   PROJECT NAME HERE
- * Project Author: PROJECT AUTHOR HERE
- * GitHub Repo:    GITHUB REPO URL HERE
+ * Project Author: Scott Noble
+ * GitHub Repo:    https://github.com/waimea-snoble/level-3-programming-assessment
  * ---------------------------------------------------------------------
  * Notes:
- * PROJECT NOTES HERE
+ * This game involves...
  * =====================================================================
  */
 
