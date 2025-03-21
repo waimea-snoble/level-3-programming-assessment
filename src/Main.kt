@@ -57,8 +57,14 @@ class App() {
 class MainWindow(val app: App) : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
-    private lateinit var clicksLabel: JLabel
-    private lateinit var clickButton: JButton
+    private lateinit var areaLabel: JLabel
+    private lateinit var descriptionLabel: JLabel
+    private lateinit var inventoryLabel: JLabel
+    private lateinit var interactButton: JButton
+    private lateinit var upButton: JButton
+    private lateinit var downButton: JButton
+    private lateinit var leftButton: JButton
+    private lateinit var rightButton: JButton
 
     /**
      * Configure the UI and display it
@@ -78,7 +84,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun configureWindow() {
         title = "Kotlin Swing GUI Demo"
-        contentPane.preferredSize = Dimension(600, 350)
+        contentPane.preferredSize = Dimension(500, 600)
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         isResizable = false
         layout = null
@@ -92,17 +98,53 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
 
-        clicksLabel = JLabel("CLICK INFO HERE")
-        clicksLabel.horizontalAlignment = SwingConstants.CENTER
-        clicksLabel.bounds = Rectangle(50, 50, 500, 100)
-        clicksLabel.font = baseFont
-        add(clicksLabel)
+        areaLabel = JLabel("Area Name")
+        areaLabel.horizontalAlignment = SwingConstants.CENTER
+        areaLabel.bounds = Rectangle(157, 34, 209, 51)
+        areaLabel.font = baseFont
+        add(areaLabel)
 
-        clickButton = JButton("Click Me!")
-        clickButton.bounds = Rectangle(50,200,500,100)
-        clickButton.font = baseFont
-        clickButton.addActionListener(this)     // Handle any clicks
-        add(clickButton)
+        descriptionLabel = JLabel("Description")
+        descriptionLabel.horizontalAlignment = SwingConstants.CENTER
+        descriptionLabel.bounds = Rectangle(104, 106, 315, 139)
+        descriptionLabel.font = baseFont
+        add(descriptionLabel)
+
+        inventoryLabel = JLabel("CLICK INFO HERE")
+        inventoryLabel.horizontalAlignment = SwingConstants.CENTER
+        inventoryLabel.bounds = Rectangle(33, 282, 100, 288)
+        inventoryLabel.font = baseFont
+        add(inventoryLabel)
+
+        interactButton = JButton("Interact")
+        interactButton.bounds = Rectangle(231,282,188,44)
+        interactButton.font = baseFont
+        interactButton.addActionListener(this)     // Handle any clicks
+        add(interactButton)
+
+        upButton = JButton("\uD83E\uDC71")
+        upButton.bounds = Rectangle(295,363,60,80)
+        upButton.font = baseFont
+        upButton.addActionListener(this)     // Handle any clicks
+        add(upButton)
+
+        downButton = JButton("\uD83E\uDC73")
+        downButton.bounds = Rectangle(295,459,60,80)
+        downButton.font = baseFont
+        downButton.addActionListener(this)     // Handle any clicks
+        add(downButton)
+
+        leftButton = JButton("\uD83E\uDC70")
+        leftButton.bounds = Rectangle(201,479,80,60)
+        leftButton.font = baseFont
+        leftButton.addActionListener(this)     // Handle any clicks
+        add(leftButton)
+
+        rightButton = JButton("\uD83E\uDC72")
+        rightButton.bounds = Rectangle(369,479,80,60)
+        rightButton.font = baseFont
+        rightButton.addActionListener(this)     // Handle any clicks
+        add(rightButton)
     }
 
 
@@ -111,14 +153,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * of the application model
      */
     fun updateView() {
-        if (app.clicks == app.MAX_CLICKS) {
-            clicksLabel.text = "Max clicks reached!"
-            clickButton.isEnabled = false
-        }
-        else {
-            clicksLabel.text = "You clicked ${app.clicks} times"
-            clickButton.isEnabled = true
-        }
+
     }
 
     /**
@@ -128,10 +163,6 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
-            clickButton -> {
-                app.updateClickCount()
-                updateView()
-            }
         }
     }
 

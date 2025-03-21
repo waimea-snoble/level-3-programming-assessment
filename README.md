@@ -1,6 +1,6 @@
 # PROJECT NAME HERE
 
-by YOUR NAME HERE
+by Scott Noble
 
 ---
 
