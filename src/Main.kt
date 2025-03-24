@@ -34,17 +34,20 @@ fun main() {
  * stored, plus any application logic functions
  */
 class App() {
-    // Constants defining any key values
-    val MAX_CLICKS = 10
 
-    // Data fields
-    var clicks = 0
+    // data fields
+    val areas = mutableListOf<Area>()
+    var currentArea = 0
 
-    // Application logic functions
-    fun updateClickCount() {
-        clicks++
-        if (clicks > MAX_CLICKS) clicks = MAX_CLICKS
+    // setup the app model
+    init {
+        // Initialize the list with some cats
+        areas.add(Area("The Woods", "A twilight-draped forest where bioluminescent fungi cast an eerie glow, ancient trees murmur forgotten lore, and unseen creatures stir in the misty depths."))
+        areas.add(Area("Abandoned House", "Black"))
+        areas.add(Area("Bedroom", "White"))
     }
+
+
 }
 
 
@@ -96,20 +99,21 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
+        val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
 
-        areaLabel = JLabel("Area Name")
+        areaLabel = JLabel(app.areas[app.currentArea].name)
         areaLabel.horizontalAlignment = SwingConstants.CENTER
         areaLabel.bounds = Rectangle(157, 34, 209, 51)
         areaLabel.font = baseFont
         add(areaLabel)
 
-        descriptionLabel = JLabel("Description")
+        descriptionLabel = JLabel("<html>" + app.areas[app.currentArea].description)
         descriptionLabel.horizontalAlignment = SwingConstants.CENTER
-        descriptionLabel.bounds = Rectangle(104, 106, 315, 139)
-        descriptionLabel.font = baseFont
+        descriptionLabel.bounds = Rectangle(50, 106, 450, 139)
+        descriptionLabel.font = descriptionFont
         add(descriptionLabel)
 
-        inventoryLabel = JLabel("CLICK INFO HERE")
+        inventoryLabel = JLabel("Inventory")
         inventoryLabel.horizontalAlignment = SwingConstants.CENTER
         inventoryLabel.bounds = Rectangle(33, 282, 100, 288)
         inventoryLabel.font = baseFont
@@ -164,6 +168,13 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         when (e?.source) {
         }
     }
+
+
+
+}
+
+class Area(val name: String, val description: String) {
+
 
 }
 
