@@ -36,15 +36,39 @@ fun main() {
 class App() {
 
     // data fields
-    val areas = mutableListOf<Area>()
-    var currentArea = 0
+    val locations = mutableListOf<Location>() // List of locations
+    var currentLocation: Location  // Variable to track the player's current location
 
     // setup the app model
     init {
         // Initialize the list with some cats
-        areas.add(Area("The Woods", "A twilight-draped forest where bioluminescent fungi cast an eerie glow, ancient trees murmur forgotten lore, and unseen creatures stir in the misty depths."))
-        areas.add(Area("Abandoned House", "Black"))
-        areas.add(Area("Bedroom", "White"))
+        val woods = Location("The Woods", "A twilight-draped forest where bioluminescent fungi cast an eerie glow, ancient trees murmur forgotten lore, and unseen creatures stir in the misty depths.")
+        val house = Location("Abandoned House", "Black")
+        val bedroom = Location("Bedroom", "White")
+
+        // Connect locations
+        woods.left = house
+        house.up = bedroom
+        bedroom.down = house
+        house.right = woods
+
+        currentLocation = woods
+    }
+
+    fun move(direction: String) {
+
+        // update the current location based on the direction input
+        val newLocation = when (direction) {
+            "north" -> currentLocation.up
+            "south" -> currentLocation.down
+            "east" -> currentLocation.right
+            "west" -> currentLocation.left
+            else -> null
+
+        }
+        if (newLocation != null) {
+            currentLocation = newLocation
+        }
     }
 
 
@@ -59,7 +83,7 @@ class App() {
 class MainWindow(val app: App) : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
-    private lateinit var areaLabel: JLabel
+    private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
     private lateinit var inventoryLabel: JLabel
     private lateinit var interactButton: JButton
@@ -101,13 +125,13 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
 
-        areaLabel = JLabel(app.areas[app.currentArea].name)
-        areaLabel.horizontalAlignment = SwingConstants.CENTER
-        areaLabel.bounds = Rectangle(157, 34, 209, 51)
-        areaLabel.font = baseFont
-        add(areaLabel)
+        locationLabel = JLabel(app.currentLocation.name)
+        locationLabel.horizontalAlignment = SwingConstants.CENTER
+        locationLabel.bounds = Rectangle(157, 34, 209, 51)
+        locationLabel.font = baseFont
+        add(locationLabel)
 
-        descriptionLabel = JLabel("<html>" + app.areas[app.currentArea].description)
+        descriptionLabel = JLabel("<html>" + app.currentLocation.description)
         descriptionLabel.horizontalAlignment = SwingConstants.CENTER
         descriptionLabel.bounds = Rectangle(50, 106, 450, 139)
         descriptionLabel.font = descriptionFont
@@ -156,6 +180,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * of the application model
      */
     fun updateView() {
+        locationLabel.text = app.currentLocation.name // new name
+        descriptionLabel.text = "<html>" + app.currentLocation.description //  new description
 
     }
 
@@ -166,14 +192,24 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
+            upButton -> app.move("north")
+            downButton -> app.move("south")
+            leftButton -> app.move("west")
+            rightButton -> app.move("east")
         }
+        updateView()  // Refresh UI after moving
     }
 
 
 
 }
 
-class Area(val name: String, val description: String) {
+class Location(val name: String, val description: String) {
+
+    var up: Location? = null
+    var down: Location? = null
+    var right: Location? = null
+    var left: Location? = null
 
 
 }
