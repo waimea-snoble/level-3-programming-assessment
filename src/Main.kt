@@ -86,6 +86,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
     private lateinit var inventoryLabel: JLabel
+    private lateinit var inventoryBox: JLabel
     private lateinit var interactButton: JButton
     private lateinit var upButton: JButton
     private lateinit var downButton: JButton
@@ -124,6 +125,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
+        val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
 
         locationLabel = JLabel(app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
@@ -139,9 +141,15 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         inventoryLabel = JLabel("Inventory")
         inventoryLabel.horizontalAlignment = SwingConstants.CENTER
-        inventoryLabel.bounds = Rectangle(33, 282, 100, 288)
-        inventoryLabel.font = baseFont
+        inventoryLabel.bounds = Rectangle(33, 225, 100, 100)
+        inventoryLabel.font = inventoryFont
         add(inventoryLabel)
+
+        inventoryBox = JLabel("Inventory")
+        inventoryBox.horizontalAlignment = SwingConstants.CENTER
+        inventoryBox.bounds = Rectangle(33, 282, 100, 288)
+        inventoryBox.font = baseFont
+        add(inventoryBox)
 
         interactButton = JButton("Interact")
         interactButton.bounds = Rectangle(231,282,188,44)
