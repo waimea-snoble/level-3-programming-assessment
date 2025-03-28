@@ -42,9 +42,9 @@ class App() {
     // setup the app model
     init {
         // Initialize the list with some cats
-        val woods = Location("The Woods", "A twilight-draped forest where bioluminescent fungi cast an eerie glow, ancient trees murmur forgotten lore, and unseen creatures stir in the misty depths.")
-        val house = Location("Abandoned House", "Black")
-        val bedroom = Location("Bedroom", "White")
+        val woods = Location("The Woods", "A twilight-draped forest", "", "", "")
+        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key")
+        val bedroom = Location("Bedroom", "White", "open window", "the window is now open", "")
 
         // Connect locations
         woods.left = house
@@ -85,9 +85,10 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     // Fields to hold the UI elements
     private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
+    private lateinit var actionPopUp: PopUpDialog
     private lateinit var inventoryLabel: JLabel
     private lateinit var inventoryBox: JLabel
-    private lateinit var interactButton: JButton
+    private lateinit var actionButton: JButton
     private lateinit var upButton: JButton
     private lateinit var downButton: JButton
     private lateinit var leftButton: JButton
@@ -123,11 +124,16 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * Populate the UI with UI controls
      */
     private fun addControls() {
+        // Create the pop-up, passing on the app object and a link
+        // back to this main window
+        actionPopUp = PopUpDialog()
+
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
+        val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
 
-        locationLabel = JLabel(app.currentLocation.name)
+        locationLabel = JLabel("<html>" + app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
         locationLabel.bounds = Rectangle(157, 34, 209, 51)
         locationLabel.font = baseFont
@@ -151,11 +157,11 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         inventoryBox.font = baseFont
         add(inventoryBox)
 
-        interactButton = JButton("Interact")
-        interactButton.bounds = Rectangle(231,282,188,44)
-        interactButton.font = baseFont
-        interactButton.addActionListener(this)     // Handle any clicks
-        add(interactButton)
+        actionButton = JButton(app.currentLocation.action)
+        actionButton.bounds = Rectangle(231,282,188,44)
+        actionButton.font = interactFont
+        actionButton.addActionListener(this)     // Handle any clicks
+        add(actionButton)
 
         upButton = JButton("\uD83E\uDC71")
         upButton.bounds = Rectangle(295,363,60,80)
@@ -190,7 +196,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     fun updateView() {
         locationLabel.text = app.currentLocation.name // new name
         descriptionLabel.text = "<html>" + app.currentLocation.description //  new description
+        actionButton.text = "<html>" + app.currentLocation.action //  new action
 
+
+        // Enable or disable buttons based on available paths
+        upButton.isEnabled = app.currentLocation.up != null
+        downButton.isEnabled = app.currentLocation.down != null
+        leftButton.isEnabled = app.currentLocation.left != null
+        rightButton.isEnabled = app.currentLocation.right != null
     }
 
     /**
@@ -200,6 +213,10 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
+
+            actionButton -> {
+                actionPopUp.isVisible = true   // And show it
+            }
             upButton -> app.move("north")
             downButton -> app.move("south")
             leftButton -> app.move("west")
@@ -212,7 +229,48 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
 }
 
-class Location(val name: String, val description: String) {
+/**
+ * Displays a modal dialog
+ */
+class PopUpDialog(): JDialog() {
+    /**
+     * Configure the UI
+     */
+    init {
+        configureWindow()
+        addControls()
+        setLocationRelativeTo(null)     // Centre the window
+    }
+
+    /**
+     * Setup the dialog window
+     */
+    private fun configureWindow() {
+        title = "Example Pop-Up"
+        contentPane.preferredSize = Dimension(400, 200)
+        isResizable = false
+        isModal = true
+        layout = null
+        pack()
+    }
+
+    /**
+     * Populate the window with controls
+     */
+    private fun addControls() {
+        val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
+
+        // Adding <html> to the label text allows it to wrap
+        val message = JLabel("<html>" + app.currentLocation.actionDialog)
+        message.bounds = Rectangle(25, 25, 350, 150)
+        message.verticalAlignment = SwingConstants.TOP
+        message.font = baseFont
+        add(message)
+    }
+
+}
+
+class Location(val name: String, val description: String, val action: String, val actionDialog: String, val item: String) {
 
     var up: Location? = null
     var down: Location? = null
