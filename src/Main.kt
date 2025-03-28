@@ -43,7 +43,7 @@ class App() {
     init {
         // Initialize the list with some cats
         val woods = Location("The Woods", "A twilight-draped forest", "", "", "")
-        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key")
+        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key",)
         val bedroom = Location("Bedroom", "White", "open window", "the window is now open", "")
 
         // Connect locations
@@ -124,9 +124,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * Populate the UI with UI controls
      */
     private fun addControls() {
-        // Create the pop-up, passing on the app object and a link
-        // back to this main window
-        actionPopUp = PopUpDialog()
+
 
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
@@ -199,6 +197,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         actionButton.text = "<html>" + app.currentLocation.action //  new action
 
 
+
+
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
         downButton.isEnabled = app.currentLocation.down != null
@@ -215,7 +215,12 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         when (e?.source) {
 
             actionButton -> {
-                actionPopUp.isVisible = true   // And show it
+                if (app.currentLocation.item != null) {                                            // fix
+                    app.currentLocation.itemCollected = true}                                      // fix
+                     if (app.currentLocation.itemCollected != null) actionButton.isEnabled = false // fix
+
+                actionPopUp = PopUpDialog(app) // Create new instance with updated data
+                actionPopUp.isVisible = true
             }
             upButton -> app.move("north")
             downButton -> app.move("south")
@@ -232,7 +237,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 /**
  * Displays a modal dialog
  */
-class PopUpDialog(): JDialog() {
+class PopUpDialog(val app: App): JDialog() {
+
     /**
      * Configure the UI
      */
@@ -261,16 +267,21 @@ class PopUpDialog(): JDialog() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
 
         // Adding <html> to the label text allows it to wrap
-        val message = JLabel("<html>" + app.currentLocation.actionDialog)
+        val message = JLabel("<html> ${app.currentLocation.actionDialog}")
         message.bounds = Rectangle(25, 25, 350, 150)
         message.verticalAlignment = SwingConstants.TOP
         message.font = baseFont
         add(message)
+
+
     }
+
 
 }
 
-class Location(val name: String, val description: String, val action: String, val actionDialog: String, val item: String) {
+class Location(val name: String, val description: String, val action: String, val actionDialog: String, val item: String, var itemCollected: Boolean = false) {
+
+
 
     var up: Location? = null
     var down: Location? = null
