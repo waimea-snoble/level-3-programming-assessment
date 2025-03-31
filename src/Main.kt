@@ -71,6 +71,24 @@ class App() {
         }
     }
 
+    // Constants
+    val maxHealth = 10
+    val minHealth = 0
+
+    // Data fields
+    var health = maxHealth
+
+    // Application logic functions
+    fun increaseHealth() {
+        health++
+        if (health > maxHealth) health = maxHealth
+    }
+
+    fun decreaseHealth() {
+        health--
+        if (health < minHealth) health = minHealth
+    }
+
 
 }
 
@@ -83,6 +101,8 @@ class App() {
 class MainWindow(val app: App) : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
+    private lateinit var healthBackPanel: JPanel
+    private lateinit var healthLevelPanel: JPanel
     private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
     private lateinit var actionPopUp: PopUpDialog
@@ -130,6 +150,19 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
+
+        // This panel acts as the 'back' of the level meter
+        healthBackPanel = JPanel()
+        healthBackPanel.bounds = Rectangle(25, 25, 450, 10)
+        healthBackPanel.background = Color.BLACK
+        healthBackPanel.layout = null                // Want layout to be manual
+        add(healthBackPanel)
+
+        // And this one sits inside the one above to make resizing it easier
+        healthLevelPanel = JPanel()
+        healthLevelPanel.bounds = Rectangle(0, 0, 450, 10)
+        healthLevelPanel.background = Color.RED
+        healthBackPanel.add(healthLevelPanel)
 
         locationLabel = JLabel("<html>" + app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
@@ -197,13 +230,30 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         actionButton.text = "<html>" + app.currentLocation.action //  new action
 
 
-
+        actionButton.isEnabled = !app.currentLocation.itemCollected
 
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
         downButton.isEnabled = app.currentLocation.down != null
         leftButton.isEnabled = app.currentLocation.left != null
         rightButton.isEnabled = app.currentLocation.right != null
+
+        // Sizes of the health bar
+        val healthWidth = calcHealthPanelWidth()
+        val healthHeight = healthBackPanel.size.height
+
+        // Update the bar's size
+        healthLevelPanel.bounds = Rectangle(0, 0, healthWidth, healthHeight)
+    }
+
+    /**
+     * Work out the volume bar width based on the parent back panel's width
+     */
+    fun calcHealthPanelWidth(): Int {
+        val healthFraction = app.health.toDouble() / app.maxHealth   // Volume from 0.0 to 1.0
+        val maxWidth = healthBackPanel.bounds.width                // Size of background panel
+        val volWidth = (maxWidth * healthFraction).toInt()         // Size in px
+        return volWidth
     }
 
     /**
@@ -215,17 +265,34 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         when (e?.source) {
 
             actionButton -> {
-                if (app.currentLocation.item != null) {                                            // fix
-                    app.currentLocation.itemCollected = true}                                      // fix
-                     if (app.currentLocation.itemCollected != null) actionButton.isEnabled = false // fix
+
+                app.currentLocation.itemCollected = true
+                if(app.currentLocation.itemCollected) {
+                    actionButton.isEnabled = false
+                }
+
 
                 actionPopUp = PopUpDialog(app) // Create new instance with updated data
                 actionPopUp.isVisible = true
             }
-            upButton -> app.move("north")
-            downButton -> app.move("south")
-            leftButton -> app.move("west")
-            rightButton -> app.move("east")
+            upButton -> {
+                app.move("north")
+                app.decreaseHealth()
+            }
+            downButton -> {
+                app.move("south")
+                app.decreaseHealth()
+            }
+            leftButton -> {
+                app.move("west")
+                app.decreaseHealth()
+            }
+            rightButton -> {
+                app.move("east")
+                app.decreaseHealth()
+            }
+
+
         }
         updateView()  // Refresh UI after moving
     }
