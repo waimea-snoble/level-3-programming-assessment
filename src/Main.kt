@@ -46,14 +46,17 @@ class App() {
     // setup the app model
     init {
         // Initialize the list with some cats
-        val woods = Location("The Woods", "A twilight-draped forest", "", "", "")
-        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key")
-        val bedroom = Location("Bedroom", "White", "open window", "the window is now open", "")
+        val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE )
+        val house = Location("Abandoned House", "", Location.ACTION_COLLECT, "open chest", "you found a key in the chest", "key")
+        val trail = Location("Trail", "", Location.ACTION_NONE )
+        val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "open window","the window is now open", "", "North", trail)
+
 
         // Connect locations
         woods.left = house
         house.up = bedroom
         bedroom.down = house
+        trail.down = bedroom
         house.right = woods
 
         currentLocation = woods
@@ -73,6 +76,8 @@ class App() {
         if (newLocation != null) {
             currentLocation = newLocation
         }
+
+
     }
 
     // Constants
@@ -235,7 +240,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         actionButton.text = "<html>" + app.currentLocation.action //  new action
 
 
-        actionButton.isEnabled = !app.currentLocation.itemCollected
+        actionButton.isEnabled = !app.currentLocation.actionTaken
 
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
@@ -244,12 +249,17 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         rightButton.isEnabled = app.currentLocation.right != null
 
         // Update inventory display
+
+
         if (app.currentLocation.action == "") {
             actionButton.isEnabled = false
         }
         else {
             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
         }
+
+
+
 
         // Sizes of the health bar
         val healthWidth = calcHealthPanelWidth()
@@ -280,12 +290,12 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
             actionButton -> {
 
-
-                app.currentLocation.itemCollected = true
+                app.currentLocation.actionTaken = true
                 app.inventory.add(app.currentLocation.item) // Add item to inventory
-                if(app.currentLocation.itemCollected) {
+                if(app.currentLocation.actionTaken) {
                     actionButton.isEnabled = false
                 }
+
 
 
                 actionPopUp = PopUpDialog(app) // Create new instance with updated data
@@ -335,7 +345,7 @@ class PopUpDialog(val app: App): JDialog() {
      * Setup the dialog window
      */
     private fun configureWindow() {
-        title = "Example Pop-Up"
+        title = "Action Pop-Up"
         contentPane.preferredSize = Dimension(400, 200)
         isResizable = false
         isModal = true
@@ -362,9 +372,24 @@ class PopUpDialog(val app: App): JDialog() {
 
 }
 
-class Location(val name: String, val description: String, val action: String, val actionDialog: String, val item: String, var itemCollected: Boolean = false) {
+class Location(
+    val name: String,
+    val description: String,
+    val actionType: Int,
+    val action: String = "",
+    val actionDialog: String = "",
+    val item: String = "",
+    val direction: String = "",
+    val link: Location? = null,
+    var actionTaken: Boolean = false
+) {
 
-
+    companion object {
+        const val ACTION_NONE = 0
+        const val ACTION_COLLECT = 1
+        const val ACTION_USE = 2
+        const val ACTION_OPEN = 3
+    }
 
     var up: Location? = null
     var down: Location? = null
