@@ -33,7 +33,11 @@ fun main() {
  * This is the place where any application data should be
  * stored, plus any application logic functions
  */
+
 class App() {
+
+
+    val inventory = mutableListOf<String>()
 
     // data fields
     val locations = mutableListOf<Location>() // List of locations
@@ -43,7 +47,7 @@ class App() {
     init {
         // Initialize the list with some cats
         val woods = Location("The Woods", "A twilight-draped forest", "", "", "")
-        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key",)
+        val house = Location("Abandoned House", "Black", "open chest", "you found a key in the chest", "key")
         val bedroom = Location("Bedroom", "White", "open window", "the window is now open", "")
 
         // Connect locations
@@ -72,7 +76,7 @@ class App() {
     }
 
     // Constants
-    val maxHealth = 10
+    val maxHealth = 100
     val minHealth = 0
 
     // Data fields
@@ -150,6 +154,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
+        val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 15)
 
         // This panel acts as the 'back' of the level meter
         healthBackPanel = JPanel()
@@ -166,7 +171,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         locationLabel = JLabel("<html>" + app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
-        locationLabel.bounds = Rectangle(157, 34, 209, 51)
+        locationLabel.bounds = Rectangle(1, 34, 499, 51)
         locationLabel.font = baseFont
         add(locationLabel)
 
@@ -182,10 +187,10 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         inventoryLabel.font = inventoryFont
         add(inventoryLabel)
 
-        inventoryBox = JLabel("Inventory")
+        inventoryBox = JLabel()
         inventoryBox.horizontalAlignment = SwingConstants.CENTER
         inventoryBox.bounds = Rectangle(33, 282, 100, 288)
-        inventoryBox.font = baseFont
+        inventoryBox.font = inventoryListFont
         add(inventoryBox)
 
         actionButton = JButton(app.currentLocation.action)
@@ -225,7 +230,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * of the application model
      */
     fun updateView() {
-        locationLabel.text = app.currentLocation.name // new name
+        locationLabel.text = "<html>" + app.currentLocation.name // new name
         descriptionLabel.text = "<html>" + app.currentLocation.description //  new description
         actionButton.text = "<html>" + app.currentLocation.action //  new action
 
@@ -237,6 +242,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         downButton.isEnabled = app.currentLocation.down != null
         leftButton.isEnabled = app.currentLocation.left != null
         rightButton.isEnabled = app.currentLocation.right != null
+
+        // Update inventory display
+        if (app.currentLocation.action == "") {
+            actionButton.isEnabled = false
+        }
+        else {
+            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
+        }
 
         // Sizes of the health bar
         val healthWidth = calcHealthPanelWidth()
@@ -264,9 +277,12 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
 
+
             actionButton -> {
 
+
                 app.currentLocation.itemCollected = true
+                app.inventory.add(app.currentLocation.item) // Add item to inventory
                 if(app.currentLocation.itemCollected) {
                     actionButton.isEnabled = false
                 }
