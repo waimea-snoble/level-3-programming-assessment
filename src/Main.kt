@@ -49,11 +49,13 @@ class App() {
         val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE )
         val house = Location("Abandoned House", "", Location.ACTION_COLLECT, "open chest", "you found a key in the chest", "key")
         val trail = Location("Trail", "", Location.ACTION_NONE )
+        val tree = Location("Tree", "", Location.ACTION_USE, "open tree", "helo" )
         val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "open window","the window is now open", "", "North", trail)
 
 
         // Connect locations
         woods.left = house
+        woods.up = tree
         house.up = bedroom
         bedroom.down = house
         trail.down = bedroom
@@ -289,18 +291,41 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
 
             actionButton -> {
+                when (app.currentLocation.actionType) {
+                    Location.ACTION_COLLECT -> {
+                        if (!app.currentLocation.actionTaken) {
+                            app.inventory.add(app.currentLocation.item) // Add item to inventory
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show pop-up with message
+                            actionPopUp.isVisible = true
+                        }
+                    }
+                    Location.ACTION_USE -> {
+                        // Example: If using a key, check if it's in inventory
+                        if (app.inventory.contains("key")) {
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show message like "You used the key"
+                            actionPopUp.isVisible = true
+                        }
+                    }
+                    Location.ACTION_OPEN -> {
+                        if (!app.currentLocation.actionTaken) {
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show message "The door is now open"
+                            actionPopUp.isVisible = true
 
-                app.currentLocation.actionTaken = true
-                app.inventory.add(app.currentLocation.item) // Add item to inventory
-                if(app.currentLocation.actionTaken) {
-                    actionButton.isEnabled = false
+                            // If the action unlocks a path, update it
+                            if (app.currentLocation.link != null) {
+                                app.currentLocation.up = app.currentLocation.link
+                            }
+                        }
+                    }
                 }
 
-
-
-                actionPopUp = PopUpDialog(app) // Create new instance with updated data
-                actionPopUp.isVisible = true
+                actionButton.isEnabled = !app.currentLocation.actionTaken
             }
+
+
             upButton -> {
                 app.move("north")
                 app.decreaseHealth()
