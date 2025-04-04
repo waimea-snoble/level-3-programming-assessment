@@ -46,10 +46,10 @@ class App() {
     // setup the app model
     init {
         // Initialize the list with some cats
-        val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE )
+        val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE)
         val house = Location("Abandoned House", "", Location.ACTION_COLLECT, "open chest", "you found a key in the chest", "key")
         val trail = Location("Trail", "", Location.ACTION_NONE )
-        val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "open window","the window is now open", "", "North", trail)
+        val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "open window","the window is now open", "", "", "north", trail)
 
 
         // Connect locations
@@ -81,7 +81,7 @@ class App() {
     }
 
     // Constants
-    val maxHealth = 100
+    val maxHealth = 50
     val minHealth = 0
 
     // Data fields
@@ -90,12 +90,17 @@ class App() {
     // Application logic functions
     fun increaseHealth() {
         health++
-        if (health > maxHealth) health = maxHealth
+        if (health > maxHealth) {
+            health = maxHealth
+        }
     }
 
     fun decreaseHealth() {
         health--
-        if (health < minHealth) health = minHealth
+        if (health <= minHealth) {
+            health = minHealth
+            System.exit(0) // Close the application after the user closes the pop-up
+        }
     }
 
 
@@ -242,21 +247,24 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         actionButton.isEnabled = !app.currentLocation.actionTaken
 
+
+        if (app.currentLocation.actionType == Location.ACTION_NONE) {
+            actionButton.isEnabled = false
+        }
+        // Disable actionButton if the actionType is ACTION_USE and the itemNeeded is not in the inventory
+        if (app.currentLocation.actionType == Location.ACTION_USE && !app.inventory.contains(app.currentLocation.itemNeeded)) {
+            actionButton.isEnabled = false
+        }
+
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
         downButton.isEnabled = app.currentLocation.down != null
         leftButton.isEnabled = app.currentLocation.left != null
         rightButton.isEnabled = app.currentLocation.right != null
 
-        // Update inventory display
 
 
-        if (app.currentLocation.action == "") {
-            actionButton.isEnabled = false
-        }
-        else {
-            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
-        }
+
 
 
 
@@ -290,20 +298,54 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
             actionButton -> {
 
-                app.currentLocation.actionTaken = true
-                app.inventory.add(app.currentLocation.item) // Add item to inventory
-                inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
-                if(app.currentLocation.actionTaken) {
-                    actionButton.isEnabled = false
+                when (app.currentLocation.actionType) {
+                    Location.ACTION_COLLECT -> {
+                        if (!app.currentLocation.actionTaken) {
+                            app.inventory.add(app.currentLocation.item) // Add item to inventory
+                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show pop-up with message
+                            actionPopUp.isVisible = true
+                        }
+
+                    }
+
+                    Location.ACTION_OPEN -> {
+                        if (!app.currentLocation.actionTaken) {
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show message "The door is now open"
+                            actionPopUp.isVisible = true
+
+                            // Unlock the path based on the stored direction
+
+                            when (app.currentLocation.direction) { // when the direction is N/S/E/W it opens the link to the new location
+                                "north" -> app.currentLocation.up = app.currentLocation.link
+                                "south" -> app.currentLocation.down = app.currentLocation.link
+                                "east" -> app.currentLocation.right = app.currentLocation.link
+                                "west" -> app.currentLocation.left = app.currentLocation.link
+                            }
+                        }
+                    }
+
+                    Location.ACTION_USE -> {
+                        // Example: If using a key, check if it's in inventory
+                        if (app.inventory.contains(app.currentLocation.itemNeeded)) {
+                            // Remove the item from the inventory after use
+                            app.inventory.remove(app.currentLocation.itemNeeded)
+                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
+                            app.currentLocation.actionTaken = true
+                            actionPopUp = PopUpDialog(app) // Show message like "You used the key"
+                            actionPopUp.isVisible = true
+                            when (app.currentLocation.direction) { // when the direction is N/S/E/W it opens the link to the new location if the key is in the inventory
+                                "north" -> app.currentLocation.up = app.currentLocation.link
+                                "south" -> app.currentLocation.down = app.currentLocation.link
+                                "east" -> app.currentLocation.right = app.currentLocation.link
+                                "west" -> app.currentLocation.left = app.currentLocation.link
+                            }
+                        }
+
+                    }
                 }
-
-
-                if (app.currentLocation.action == "") {
-                    actionButton.isEnabled = false
-                }
-
-                actionPopUp = PopUpDialog(app) // Create new instance with updated data
-                actionPopUp.isVisible = true
             }
 
 
@@ -376,6 +418,10 @@ class PopUpDialog(val app: App): JDialog() {
     }
 
 
+
+
+
+
 }
 
 class Location(
@@ -385,6 +431,7 @@ class Location(
     val action: String = "",
     val actionDialog: String = "",
     val item: String = "",
+    val itemNeeded: String = "",
     val direction: String = "",
     val link: Location? = null,
     var actionTaken: Boolean = false
