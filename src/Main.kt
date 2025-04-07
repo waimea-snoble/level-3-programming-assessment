@@ -92,6 +92,7 @@ class App() {
         health++
         if (health > maxHealth) {
             health = maxHealth
+
         }
     }
 
@@ -99,9 +100,10 @@ class App() {
         health--
         if (health <= minHealth) {
             health = minHealth
-            System.exit(0) // Close the application after the user closes the pop-up
         }
     }
+
+
 
 
 }
@@ -127,6 +129,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private lateinit var downButton: JButton
     private lateinit var leftButton: JButton
     private lateinit var rightButton: JButton
+
 
     /**
      * Configure the UI and display it
@@ -368,6 +371,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
 
         }
+
         updateView()  // Refresh UI after moving
     }
 
@@ -393,7 +397,7 @@ class PopUpDialog(val app: App): JDialog() {
      * Setup the dialog window
      */
     private fun configureWindow() {
-        title = "Action Pop-Up"
+        title = "Pop-Up"
         contentPane.preferredSize = Dimension(400, 200)
         isResizable = false
         isModal = true
@@ -413,6 +417,14 @@ class PopUpDialog(val app: App): JDialog() {
         message.verticalAlignment = SwingConstants.TOP
         message.font = baseFont
         add(message)
+
+
+
+
+
+
+
+
 
 
     }
