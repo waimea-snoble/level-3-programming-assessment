@@ -16,6 +16,7 @@ import com.formdev.flatlaf.FlatDarkLaf
 import java.awt.*
 import java.awt.event.*
 import javax.swing.*
+import kotlin.system.exitProcess
 
 
 /**
@@ -82,26 +83,17 @@ class App() {
 
     // Constants
     val maxHealth = 50
-    val minHealth = 0
 
     // Data fields
     var health = maxHealth
 
     // Application logic functions
-    fun increaseHealth() {
-        health++
-        if (health > maxHealth) {
-            health = maxHealth
-
-        }
-    }
 
     fun decreaseHealth() {
         health--
-        if (health <= minHealth) {
-            health = minHealth
-        }
     }
+
+
 
 
 
@@ -117,11 +109,14 @@ class App() {
 class MainWindow(val app: App) : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
+    private lateinit var helpButton: JButton
+    private lateinit var helpPopUp: PopUpDialog
     private lateinit var healthBackPanel: JPanel
     private lateinit var healthLevelPanel: JPanel
     private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
     private lateinit var actionPopUp: PopUpDialog
+    private lateinit var deathPopUp: PopUpDialog
     private lateinit var inventoryLabel: JLabel
     private lateinit var inventoryBox: JLabel
     private lateinit var actionButton: JButton
@@ -162,12 +157,20 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun addControls() {
 
+        helpPopUp = PopUpDialog(app)
+
 
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 15)
+
+        helpButton = JButton("Open The Pop-Up")
+        helpButton.bounds = Rectangle(25, 100, 350, 50)
+        helpButton.font = baseFont
+        helpButton.addActionListener(this)     // Handle any clicks
+        add(helpButton)
 
         // This panel acts as the 'back' of the level meter
         healthBackPanel = JPanel()
@@ -259,6 +262,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             actionButton.isEnabled = false
         }
 
+        if (app.health == 0) {
+            this.isVisible = false
+            deathPopUp = PopUpDialog(app) // Show message
+            deathPopUp.isVisible = true
+            exitProcess(0)
+        }
+
+
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
         downButton.isEnabled = app.currentLocation.down != null
@@ -297,6 +308,10 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
+
+            helpButton -> {
+                helpPopUp.isVisible = true   // And show it
+            }
 
 
             actionButton -> {
@@ -417,7 +432,26 @@ class PopUpDialog(val app: App): JDialog() {
         message.verticalAlignment = SwingConstants.TOP
         message.font = baseFont
         add(message)
+        if (app.health == 0) {
+            message.isVisible = false
+        }
 
+        val deathMessage = JLabel("<html> You have died. GAME OVER")
+        deathMessage.bounds = Rectangle(25, 25, 350, 150)
+        deathMessage.verticalAlignment = SwingConstants.TOP
+        deathMessage.font = baseFont
+        add(deathMessage)
+        deathMessage.isVisible = false
+        if (app.health == 0) {
+            deathMessage.isVisible = true
+        }
+
+        // Adding <html> to the label text allows it to wrap
+        val helpMessage = JLabel("<html>This is an example pop-up dialog window. Like any window it can have controls, respond to events, etc. <br><br>It is a <em>modal</em> window, so it grabs the focus, and the main window can't be interacted with until this pop-up is closed.")
+        helpMessage.bounds = Rectangle(25, 25, 350, 150)
+        helpMessage.verticalAlignment = SwingConstants.TOP
+        helpMessage.font = baseFont
+        add(helpMessage)
 
 
 
@@ -428,10 +462,6 @@ class PopUpDialog(val app: App): JDialog() {
 
 
     }
-
-
-
-
 
 
 }
