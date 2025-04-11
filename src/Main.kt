@@ -110,13 +110,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
     private lateinit var helpButton: JButton
-    private lateinit var helpPopUp: PopUpDialog
+    private lateinit var helpPopUp: HelpPopUpDialog
+    private lateinit var winPopUp: WinPopUpDialog
     private lateinit var healthBackPanel: JPanel
     private lateinit var healthLevelPanel: JPanel
     private lateinit var locationLabel: JLabel
     private lateinit var descriptionLabel: JLabel
-    private lateinit var actionPopUp: PopUpDialog
-    private lateinit var deathPopUp: PopUpDialog
+    private lateinit var actionPopUp: ActionPopUpDialog
+    private lateinit var deathPopUp: ActionPopUpDialog
     private lateinit var inventoryLabel: JLabel
     private lateinit var inventoryBox: JLabel
     private lateinit var actionButton: JButton
@@ -157,8 +158,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun addControls() {
 
-        helpPopUp = PopUpDialog(app)
-
+        helpPopUp = HelpPopUpDialog()
 
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
@@ -264,8 +264,15 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         if (app.health == 0) {
             this.isVisible = false
-            deathPopUp = PopUpDialog(app) // Show message
+            deathPopUp = ActionPopUpDialog(app) // Show message
             deathPopUp.isVisible = true
+            exitProcess(0)
+        }
+
+        if (app.inventory.contains("heart") && app.inventory.contains("feather") && app.inventory.contains("water") && app.inventory.contains("dragon scale")) {
+            this.isVisible = false
+            winPopUp = WinPopUpDialog() // Show message
+            winPopUp.isVisible = true
             exitProcess(0)
         }
 
@@ -322,8 +329,9 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             app.inventory.add(app.currentLocation.item) // Add item to inventory
                             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
                             app.currentLocation.actionTaken = true
-                            actionPopUp = PopUpDialog(app) // Show pop-up with message
+                            actionPopUp = ActionPopUpDialog(app) // Show pop-up with message
                             actionPopUp.isVisible = true
+                            helpPopUp.isVisible = false
                         }
 
                     }
@@ -331,8 +339,9 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                     Location.ACTION_OPEN -> {
                         if (!app.currentLocation.actionTaken) {
                             app.currentLocation.actionTaken = true
-                            actionPopUp = PopUpDialog(app) // Show message "The door is now open"
+                            actionPopUp = ActionPopUpDialog(app) // Show message "The door is now open"
                             actionPopUp.isVisible = true
+                            helpPopUp.isVisible = false
 
                             // Unlock the path based on the stored direction
 
@@ -352,8 +361,9 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             app.inventory.remove(app.currentLocation.itemNeeded)
                             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
                             app.currentLocation.actionTaken = true
-                            actionPopUp = PopUpDialog(app) // Show message like "You used the key"
+                            actionPopUp = ActionPopUpDialog(app) // Show message like "You used the key"
                             actionPopUp.isVisible = true
+                            helpPopUp.isVisible = false
                             when (app.currentLocation.direction) { // when the direction is N/S/E/W it opens the link to the new location if the key is in the inventory
                                 "north" -> app.currentLocation.up = app.currentLocation.link
                                 "south" -> app.currentLocation.down = app.currentLocation.link
@@ -397,7 +407,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 /**
  * Displays a modal dialog
  */
-class PopUpDialog(val app: App): JDialog() {
+class ActionPopUpDialog(val app: App): JDialog() {
 
     /**
      * Configure the UI
@@ -445,6 +455,86 @@ class PopUpDialog(val app: App): JDialog() {
         if (app.health == 0) {
             deathMessage.isVisible = true
         }
+    }
+}
+
+/**
+ * Displays a modal dialog
+ */
+class WinPopUpDialog(): JDialog() {
+
+    /**
+     * Configure the UI
+     */
+    init {
+        configureWindow()
+        addControls()
+        setLocationRelativeTo(null)     // Centre the window
+    }
+
+    /**
+     * Setup the dialog window
+     */
+    private fun configureWindow() {
+        title = "Pop-Up"
+        contentPane.preferredSize = Dimension(400, 200)
+        isResizable = false
+        isModal = true
+        layout = null
+        pack()
+    }
+
+    /**
+     * Populate the window with controls
+     */
+    private fun addControls() {
+        val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
+
+
+        // Adding <html> to the label text allows it to wrap
+        val winMessage = JLabel("<html> You Win!")
+        winMessage.bounds = Rectangle(25, 25, 350, 150)
+        winMessage.verticalAlignment = SwingConstants.TOP
+        winMessage.font = baseFont
+        add(winMessage)
+
+    }
+
+
+}
+
+/**
+ * Displays a modal dialog
+ */
+class HelpPopUpDialog(): JDialog() {
+
+    /**
+     * Configure the UI
+     */
+    init {
+        configureWindow()
+        addControls()
+        setLocationRelativeTo(null)     // Centre the window
+    }
+
+    /**
+     * Setup the dialog window
+     */
+    private fun configureWindow() {
+        title = "Pop-Up"
+        contentPane.preferredSize = Dimension(400, 200)
+        isResizable = false
+        isModal = true
+        layout = null
+        pack()
+    }
+
+    /**
+     * Populate the window with controls
+     */
+    private fun addControls() {
+        val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
+
 
         // Adding <html> to the label text allows it to wrap
         val helpMessage = JLabel("<html>This is an example pop-up dialog window. Like any window it can have controls, respond to events, etc. <br><br>It is a <em>modal</em> window, so it grabs the focus, and the main window can't be interacted with until this pop-up is closed.")
@@ -452,14 +542,7 @@ class PopUpDialog(val app: App): JDialog() {
         helpMessage.verticalAlignment = SwingConstants.TOP
         helpMessage.font = baseFont
         add(helpMessage)
-
-
-
-
-
-
-
-
+        helpMessage.isVisible = true
 
     }
 
