@@ -46,21 +46,47 @@ class App() {
 
     // setup the app model
     init {
-        // Initialize the list with some cats
+        // Initialize the list with some locations
         val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE)
-        val house = Location("Abandoned House", "", Location.ACTION_COLLECT, "open chest", "you found a key in the chest", "key")
-        val trail = Location("Trail", "", Location.ACTION_NONE )
-        val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "open window","the window is now open", "", "", "north", trail)
+        val house = Location("Abandoned House", "", Location.ACTION_NONE)
+        val attic = Location("Attic", "", Location.ACTION_COLLECT, "Open chest", "You found a key in the chest", "Key")
+        val hallway = Location("Hallway", "", Location.ACTION_OPEN, "Open entrance to attic", "You opened the attic", "", "", "north", attic)
+
+        val trail = Location("Trail", "", Location.ACTION_NONE)
+        val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "Open window","The window is now open", "", "", "north", trail)
+
+        val cave = Location("Cave", "", Location.ACTION_NONE)
+        val cave2 = Location("Cave", "", Location.ACTION_NONE)
+        val town = Location("Town", "", Location.ACTION_NONE)
+        val caveExit = Location("Cave", "You found a boulder blocking the exit", Location.ACTION_OPEN, "Move Boulder", "You moved the boulder", "", "", "east", town)
+        val caveEntrance = Location("Cave Entrance", "The cave is dark but you see a light in the distance. Be careful you might get lost", Location.ACTION_NONE)
+        val marketStall = Location("Market Stall", "A vendor selling various items, including a vial from the spring of life costing 10 gold bars", Location.ACTION_COLLECT, "Buy vial", "You bought the water from the spring of life", "Water vial", "10 Gold Bars")
 
 
         // Connect locations
         woods.left = house
         house.up = bedroom
         bedroom.down = house
+        house.left = hallway
+        hallway.right = house
+        attic.down = hallway
+        trail.up = caveEntrance
         trail.down = bedroom
         house.right = woods
+        caveEntrance.down =trail
+        caveEntrance.up = cave
+        cave.up = cave
+        cave.left = cave
+        cave.down = caveEntrance
+        cave.right = cave2
+        cave2.right = caveExit
+        town.up = marketStall
 
-        currentLocation = woods
+
+
+
+
+            currentLocation = woods
     }
 
     fun move(direction: String) {
@@ -111,6 +137,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     // Fields to hold the UI elements
     private lateinit var helpButton: JButton
     private lateinit var helpPopUp: HelpPopUpDialog
+    private lateinit var introPopUp: IntroPopUpDialog
     private lateinit var winPopUp: WinPopUpDialog
     private lateinit var healthBackPanel: JPanel
     private lateinit var healthLevelPanel: JPanel
@@ -131,13 +158,20 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * Configure the UI and display it
      */
     init {
+
+
         configureWindow()               // Configure the window
         addControls()                   // Build the UI
+
 
         setLocationRelativeTo(null)     // Centre the window
         isVisible = true                // Make it visible
 
+
+
+        introPopUp.isVisible = true
         updateView()                    // Initialise the UI
+
     }
 
     /**
@@ -159,6 +193,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private fun addControls() {
 
         helpPopUp = HelpPopUpDialog()
+        introPopUp = IntroPopUpDialog()
+
 
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
@@ -269,7 +305,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             exitProcess(0)
         }
 
-        if (app.inventory.contains("heart") && app.inventory.contains("feather") && app.inventory.contains("water") && app.inventory.contains("dragon scale")) {
+        if (app.inventory.contains("Magma Berry") && app.inventory.contains("feather") && app.inventory.contains("water") && app.inventory.contains("dragon scale")) {
             this.isVisible = false
             winPopUp = WinPopUpDialog() // Show message
             winPopUp.isVisible = true
@@ -359,6 +395,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                         if (app.inventory.contains(app.currentLocation.itemNeeded)) {
                             // Remove the item from the inventory after use
                             app.inventory.remove(app.currentLocation.itemNeeded)
+                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
+                            app.inventory.add(app.currentLocation.item) // Add item to inventory
                             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>")
                             app.currentLocation.actionTaken = true
                             actionPopUp = ActionPopUpDialog(app) // Show message like "You used the key"
@@ -543,6 +581,52 @@ class HelpPopUpDialog(): JDialog() {
         helpMessage.font = baseFont
         add(helpMessage)
         helpMessage.isVisible = true
+
+    }
+
+
+}
+
+/**
+ * Displays a modal dialog
+ */
+class IntroPopUpDialog(): JDialog() {
+
+    /**
+     * Configure the UI
+     */
+    init {
+        configureWindow()
+        addControls()
+        setLocationRelativeTo(null)     // Centre the window
+    }
+
+    /**
+     * Setup the dialog window
+     */
+    private fun configureWindow() {
+        title = "Pop-Up"
+        contentPane.preferredSize = Dimension(400, 200)
+        isResizable = false
+        isModal = true
+        layout = null
+        pack()
+    }
+
+    /**
+     * Populate the window with controls
+     */
+    private fun addControls() {
+        val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
+
+
+        // Adding <html> to the label text allows it to wrap
+        val introMessage = JLabel("<html> hello")
+        introMessage.bounds = Rectangle(25, 25, 350, 150)
+        introMessage.verticalAlignment = SwingConstants.TOP
+        introMessage.font = baseFont
+        add(introMessage)
+        introMessage.isVisible = true
 
     }
 
