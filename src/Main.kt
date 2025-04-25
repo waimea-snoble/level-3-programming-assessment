@@ -49,18 +49,29 @@ class App() {
         // Initialize the list with some locations
         val woods = Location("The Woods", "A twilight-draped forest", Location.ACTION_NONE)
         val house = Location("Abandoned House", "", Location.ACTION_NONE)
-        val attic = Location("Attic", "", Location.ACTION_COLLECT, "Open chest", "You found a key in the chest", "Key")
+        val attic = Location("Attic", "", Location.ACTION_COLLECT, "Open chest", "You found 10 gold bars inside the chest", "10 Gold Bars")
         val hallway = Location("Hallway", "", Location.ACTION_OPEN, "Open entrance to attic", "You opened the attic", "", "", "north", attic)
-
         val trail = Location("Trail", "", Location.ACTION_NONE)
         val bedroom = Location("Bedroom", "", Location.ACTION_OPEN, "Open window","The window is now open", "", "", "north", trail)
-
         val cave = Location("Cave", "", Location.ACTION_NONE)
         val cave2 = Location("Cave", "", Location.ACTION_NONE)
         val town = Location("Town", "", Location.ACTION_NONE)
         val caveExit = Location("Cave", "You found a boulder blocking the exit", Location.ACTION_OPEN, "Move Boulder", "You moved the boulder", "", "", "east", town)
         val caveEntrance = Location("Cave Entrance", "The cave is dark but you see a light in the distance. Be careful you might get lost", Location.ACTION_NONE)
-        val marketStall = Location("Market Stall", "A vendor selling various items, including a vial from the spring of life costing 10 gold bars", Location.ACTION_COLLECT, "Buy vial", "You bought the water from the spring of life", "Water vial", "10 Gold Bars")
+        val marketStall = Location("Market Stall", "A vendor selling various items, including a vial from the spring of life costing 10 gold bars", Location.ACTION_USE, "Buy vial", "You bought the water from the spring of life", "Water vial", "10 Gold Bars")
+        val forkInTheRoad = Location("Fork in The Road", "", Location.ACTION_NONE)
+        val pathToMountain = Location("Path to Frostfang Peak", "A path leading to a castle in Frostfang Peak", Location.ACTION_NONE)
+        val castleGate = Location("Castle Gate", "A gate to the castle, frozen shut with icicles dripping from atop the walls", Location.ACTION_OPEN, "Shout", "There is no response")
+        val castleWall = Location("Castle Wall", "There is a hole in the castle wall", Location.ACTION_NONE)
+        val throneRoom = Location("Throne Room", "In the throne room you see some rare frostsnap berries dangling through a window", Location.ACTION_COLLECT, "Collect berries", "You picked up the Frostsnap berries", "Frostsnap berries", "Pickaxe")
+        val castleCourtyard = Location("Castle Courtyard", "The courtyard is empty, a wall of ice is blocking a room", Location.ACTION_USE, "Break through ice", "You used the pickaxe to break through", "", "Pickaxe", "north", throneRoom)
+        val mine = Location("Mine", "You go inside a mine and see a dead miner", Location.ACTION_COLLECT, "Search Body", "You found a pickaxe", "Pickaxe")
+        val topOfDarkfireDepths = Location("Top of Darkfire Depths", "", Location.ACTION_NONE)
+        val wagon = Location("Man on a wagon", "A man saying he can give you a ride to Darkfire Depths, but only if you give him a rare diamond only found in Frostfang Peak", Location.ACTION_USE, "Give", "Thank you, you can now go to Darkfire Depths", "", "Diamond", "east", topOfDarkfireDepths)
+        val deepInTheMine = Location("Deep in the Mine", "", Location.ACTION_NONE)
+        val deadEnd = Location("Dead End", "", Location.ACTION_NONE)
+        val minecart = Location("Minecart", "You see a bag inside a minecart", Location.ACTION_COLLECT, "Search the bag", "You found a diamond in the bag", "Diamond")
+
 
 
         // Connect locations
@@ -80,7 +91,36 @@ class App() {
         cave.down = caveEntrance
         cave.right = cave2
         cave2.right = caveExit
+        cave2.left = cave
         town.up = marketStall
+        marketStall.down = town
+        town.left = caveExit
+        caveExit.left = cave2
+        town.right = forkInTheRoad
+        forkInTheRoad.up = pathToMountain
+        forkInTheRoad.left = town
+        pathToMountain.down = forkInTheRoad
+        pathToMountain.up = castleGate
+        castleGate.down = pathToMountain
+        castleGate.left = castleWall
+        castleWall.right = castleGate
+        castleWall.up = castleCourtyard
+        castleCourtyard.down = castleWall
+        castleWall.left = mine
+        mine.right = castleWall
+        throneRoom.down = castleCourtyard
+        forkInTheRoad.right = wagon
+        wagon.left = forkInTheRoad
+        mine.left = deepInTheMine
+        deepInTheMine.down = minecart
+        minecart.up = deepInTheMine
+        deepInTheMine.up = deadEnd
+        deadEnd.down = deepInTheMine
+        deepInTheMine.right = mine
+        topOfDarkfireDepths.left = wagon
+
+
+
 
 
 
@@ -305,7 +345,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             exitProcess(0)
         }
 
-        if (app.inventory.contains("Magma Berry") && app.inventory.contains("feather") && app.inventory.contains("water") && app.inventory.contains("dragon scale")) {
+        if (app.inventory.contains("Frostsnap Berry") && app.inventory.contains("feather") && app.inventory.contains("water") && app.inventory.contains("dragon scale")) {
             this.isVisible = false
             winPopUp = WinPopUpDialog() // Show message
             winPopUp.isVisible = true
