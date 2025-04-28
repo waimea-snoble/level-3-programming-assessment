@@ -564,7 +564,7 @@ class ActionPopUpDialog(val app: App): JDialog() {
             message.isVisible = false
         }
 
-        val deathMessage = JLabel("<html> You have died. GAME OVER")
+        val deathMessage = JLabel("<html> You have died, you failed to gather all of the ingredients. GAME OVER")
         deathMessage.bounds = Rectangle(25, 25, 350, 150)
         deathMessage.verticalAlignment = SwingConstants.TOP
         deathMessage.font = baseFont
@@ -686,7 +686,7 @@ class IntroPopUpDialog(): JDialog() {
      */
     private fun configureWindow() {
         title = "Pop-Up"
-        contentPane.preferredSize = Dimension(400, 200)
+        contentPane.preferredSize = Dimension(550, 600)
         isResizable = false
         isModal = true
         layout = null
@@ -701,8 +701,8 @@ class IntroPopUpDialog(): JDialog() {
 
 
         // Adding <html> to the label text allows it to wrap
-        val introMessage = JLabel("<html> hello")
-        introMessage.bounds = Rectangle(25, 25, 350, 150)
+        val introMessage = JLabel("<html> You awaken in a cold sweat, heart pounding, a bitter taste clinging to your tongue. A shadowy figure’s last words echo in your mind. The poison is already inside you. If you want to live you’ll have to find the cure yourself. Your body weakens with every passing moment. Somewhere out there, hidden in dark forests, crumbling ruins, and forgotten places, are the rare ingredients you need to create the antidote. Time is against you. Trust no one. Every decision matters. Find the ingredients, brew the cure, or succumb to the poison.")
+        introMessage.bounds = Rectangle(50, 50, 450, 600)
         introMessage.verticalAlignment = SwingConstants.TOP
         introMessage.font = baseFont
         add(introMessage)
