@@ -254,7 +254,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun configureWindow() {
         title = "Kotlin Swing GUI Demo"
-        contentPane.preferredSize = Dimension(500, 600)
+        contentPane.preferredSize = Dimension(550, 600)
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         isResizable = false
         layout = null
@@ -275,17 +275,17 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
-        val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 15)
+        val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 18)
 
-        helpButton = JButton("Open The Pop-Up")
-        helpButton.bounds = Rectangle(25, 100, 350, 50)
+        helpButton = JButton("Help")
+        helpButton.bounds = Rectangle(40,487, 150, 50)
         helpButton.font = baseFont
         helpButton.addActionListener(this)     // Handle any clicks
         add(helpButton)
 
         // This panel acts as the 'back' of the level meter
         healthBackPanel = JPanel()
-        healthBackPanel.bounds = Rectangle(25, 25, 450, 10)
+        healthBackPanel.bounds = Rectangle(50, 25, 450, 10)
         healthBackPanel.background = Color.BLACK
         healthBackPanel.layout = null                // Want layout to be manual
         add(healthBackPanel)
@@ -298,13 +298,13 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         locationLabel = JLabel("<html>" + app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
-        locationLabel.bounds = Rectangle(1, 34, 499, 51)
+        locationLabel.bounds = Rectangle(26, 34, 499, 51)
         locationLabel.font = baseFont
         add(locationLabel)
 
         descriptionLabel = JLabel("<html>" + app.currentLocation.description)
         descriptionLabel.horizontalAlignment = SwingConstants.CENTER
-        descriptionLabel.bounds = Rectangle(50, 106, 450, 139)
+        descriptionLabel.bounds = Rectangle(50, 106, 450, 110)
         descriptionLabel.font = descriptionFont
         add(descriptionLabel)
 
@@ -315,37 +315,37 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         add(inventoryLabel)
 
         inventoryBox = JLabel()
-        inventoryBox.horizontalAlignment = SwingConstants.CENTER
-        inventoryBox.bounds = Rectangle(33, 282, 100, 288)
+        inventoryBox.verticalAlignment = SwingConstants.TOP
+        inventoryBox.bounds = Rectangle(30, 300, 200, 288)
         inventoryBox.font = inventoryListFont
         add(inventoryBox)
 
         actionButton = JButton(app.currentLocation.action)
-        actionButton.bounds = Rectangle(231,282,188,44)
+        actionButton.bounds = Rectangle(256,282,188,55)
         actionButton.font = interactFont
         actionButton.addActionListener(this)     // Handle any clicks
         add(actionButton)
 
         upButton = JButton("\uD83E\uDC71")
-        upButton.bounds = Rectangle(295,363,60,80)
+        upButton.bounds = Rectangle(320,363,60,80)
         upButton.font = baseFont
         upButton.addActionListener(this)     // Handle any clicks
         add(upButton)
 
         downButton = JButton("\uD83E\uDC73")
-        downButton.bounds = Rectangle(295,459,60,80)
+        downButton.bounds = Rectangle(320,459,60,80)
         downButton.font = baseFont
         downButton.addActionListener(this)     // Handle any clicks
         add(downButton)
 
         leftButton = JButton("\uD83E\uDC70")
-        leftButton.bounds = Rectangle(201,479,80,60)
+        leftButton.bounds = Rectangle(226,479,80,60)
         leftButton.font = baseFont
         leftButton.addActionListener(this)     // Handle any clicks
         add(leftButton)
 
         rightButton = JButton("\uD83E\uDC72")
-        rightButton.bounds = Rectangle(369,479,80,60)
+        rightButton.bounds = Rectangle(394,479,80,60)
         rightButton.font = baseFont
         rightButton.addActionListener(this)     // Handle any clicks
         add(rightButton)
@@ -655,7 +655,7 @@ class HelpPopUpDialog(): JDialog() {
 
 
         // Adding <html> to the label text allows it to wrap
-        val helpMessage = JLabel("<html>This is an example pop-up dialog window. Like any window it can have controls, respond to events, etc. <br><br>It is a <em>modal</em> window, so it grabs the focus, and the main window can't be interacted with until this pop-up is closed.")
+        val helpMessage = JLabel("<html> The aim of the game is to find the four ingredients Water from the spring of life, Frostsnap Berries, Flameheart Essence, and a bone of a leviathan. You can move around the map by using the arrow buttons on the screen and there is an action button above the arrows to interact with the location you are currently at.")
         helpMessage.bounds = Rectangle(25, 25, 350, 150)
         helpMessage.verticalAlignment = SwingConstants.TOP
         helpMessage.font = baseFont
