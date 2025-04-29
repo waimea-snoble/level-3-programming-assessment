@@ -6,7 +6,7 @@ Terminology:
 
 - **VALID** data values are those that the program expects
 - **BOUNDARY** data values are at the limits of the valid range
-- **INVALID** data values are those that the program should reject
+- **INVALID** data values are those that the program should reject e.g I cant click the button to leave the map, it is faded out
 
 ---
 
