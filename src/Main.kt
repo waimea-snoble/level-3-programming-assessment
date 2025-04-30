@@ -39,7 +39,7 @@ fun main() {
 class App() {
 
 
-    // the inventory is a mutable list because it measn tht items can be added or removed
+    // the inventory is a mutable list because it means tht items can be added or removed
     val inventory = mutableListOf<String>() // players inventory to store collected items
 
     // data fields
@@ -637,7 +637,7 @@ class WinPopUpDialog(): JDialog() {
 
 
         // Adding <html> to the label text allows it to wrap
-        val winMessage = JLabel("<html> You Win!")
+        val winMessage = JLabel("<html> You Win! You found all of the ingredients and made a potion to cure the poison")
         winMessage.bounds = Rectangle(25, 25, 350, 150)
         winMessage.verticalAlignment = SwingConstants.TOP
         winMessage.font = baseFont
