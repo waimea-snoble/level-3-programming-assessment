@@ -183,7 +183,7 @@ class App() {
     }
 
     // Constants
-    val maxHealth = 100000
+    val maxHealth = 200
 
     // Data fields
     var health = maxHealth
@@ -413,6 +413,9 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         return volWidth
     }
 
+    /**
+     * Check if the player has the ingredients in order to win
+     */
     fun checkForWin() {
         if (app.inventory.contains("Water Vial") &&
             app.inventory.contains("Frostsnap Berries") &&
