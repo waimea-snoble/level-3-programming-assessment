@@ -7,7 +7,8 @@
  * GitHub Repo:    https://github.com/waimea-snoble/level-3-programming-assessment
  * ---------------------------------------------------------------------
  * Notes:
- * This game involves...
+ * This game involves navigating through various locations to collect items
+ * needed to create an antidote for a poison, while the layers health slowly decreases.
  * =====================================================================
  */
 
@@ -38,11 +39,17 @@ fun main() {
 class App() {
 
 
-    val inventory = mutableListOf<String>()
+    // the inventory is a mutable list because it measn tht items can be added or removed
+    val inventory = mutableListOf<String>() // players inventory to store collected items
 
     // data fields
-    val locations = mutableListOf<Location>() // List of locations
     var currentLocation: Location  // Variable to track the player's current location
+
+    // Player stats
+    val maxHealth = 200 // maximum health value
+
+    // Data fields
+    var health = maxHealth // set player health to maximum
 
     // setup the app model
     init {
@@ -85,7 +92,7 @@ class App() {
         val shipDeck = Location("Ship Deck", "Skeletons litter the deck, frozen in their last stand. The captain lies impaled, still gripping something in his cold hand.", Location.ACTION_COLLECT, "Pick Up Key", "You found the captain's key", "Captain's Key")
         val leviathanGraveyard = Location("Leviathan Graveyard", "Monstrous bones spike out of the ground like jagged cliffs. A single bone fragment glows faintly with power.", Location.ACTION_COLLECT, "Pick up bone fragment", "You picked up the bone of a leviathan", "Leviathan Bone")
 
-        // Connect locations
+        // Connect locations to create map
         woods.left = house
         house.up = bedroom
         bedroom.down = house
@@ -154,19 +161,16 @@ class App() {
         glowstoneChasm.down = leviathanGraveyard
         leviathanGraveyard.up = glowstoneChasm
 
-
-
-
-
-
-
-
-            currentLocation = woods
+        currentLocation = woods // starting location
     }
 
+    /**
+     * Moves player to a new location in the specified direction
+     */
     fun move(direction: String) {
 
         // update the current location based on the direction input
+        // I used when() because it easier to read than if else chains
         val newLocation = when (direction) {
             "north" -> currentLocation.up
             "south" -> currentLocation.down
@@ -175,6 +179,8 @@ class App() {
             else -> null
 
         }
+
+        // update the current location if move is valid
         if (newLocation != null) {
             currentLocation = newLocation
         }
@@ -182,16 +188,11 @@ class App() {
 
     }
 
-    // Constants
-    val maxHealth = 200
-
-    // Data fields
-    var health = maxHealth
-
-    // Application logic functions
-
+    /**
+     * function to decrease the health
+     */
     fun decreaseHealth() {
-        health--
+        health-- // this decreases the health by one every move due to the posion
     }
 
 
@@ -235,17 +236,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     init {
 
 
-        configureWindow()               // Configure the window
-        addControls()                   // Build the UI
+        configureWindow() // Configure the window
+        addControls() // Build the UI
+        setLocationRelativeTo(null) // Centre the window
+        isVisible = true // Make it visible
 
 
-        setLocationRelativeTo(null)     // Centre the window
-        isVisible = true                // Make it visible
-
-
-
-        introPopUp.isVisible = true
-        updateView()                    // Initialise the UI
+        introPopUp.isVisible = true // show the popup
+        updateView() // Initialise the UI
 
     }
 
@@ -267,59 +265,67 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      */
     private fun addControls() {
 
+        // initialise popup windows
         helpPopUp = HelpPopUpDialog()
         introPopUp = IntroPopUpDialog()
 
 
+        // set fonts
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 36)
         val descriptionFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 18)
 
+        // create help button
         helpButton = JButton("Help")
         helpButton.bounds = Rectangle(40,487, 150, 50)
         helpButton.font = baseFont
         helpButton.addActionListener(this)     // Handle any clicks
         add(helpButton)
 
-        // This panel acts as the 'back' of the level meter
+        // health bar components
         healthBackPanel = JPanel()
         healthBackPanel.bounds = Rectangle(50, 25, 450, 10)
         healthBackPanel.background = Color.BLACK
         healthBackPanel.layout = null                // Want layout to be manual
         add(healthBackPanel)
 
-        // And this one sits inside the one above to make resizing it easier
+
         healthLevelPanel = JPanel()
         healthLevelPanel.bounds = Rectangle(0, 0, 450, 10)
         healthLevelPanel.background = Color.RED
         healthBackPanel.add(healthLevelPanel)
 
+        // displays location name
         locationLabel = JLabel("<html>" + app.currentLocation.name)
         locationLabel.horizontalAlignment = SwingConstants.CENTER
         locationLabel.bounds = Rectangle(26, 34, 499, 51)
         locationLabel.font = baseFont
         add(locationLabel)
 
+        // description for the current location
         descriptionLabel = JLabel("<html>" + app.currentLocation.description)
         descriptionLabel.horizontalAlignment = SwingConstants.CENTER
         descriptionLabel.bounds = Rectangle(50, 106, 450, 110)
         descriptionLabel.font = descriptionFont
         add(descriptionLabel)
 
+        // shows the inventory text
         inventoryLabel = JLabel("Inventory")
         inventoryLabel.horizontalAlignment = SwingConstants.CENTER
         inventoryLabel.bounds = Rectangle(33, 225, 100, 100)
         inventoryLabel.font = inventoryFont
         add(inventoryLabel)
 
+        // the box for the inventory items to go in
         inventoryBox = JLabel()
         inventoryBox.verticalAlignment = SwingConstants.TOP
         inventoryBox.bounds = Rectangle(30, 300, 200, 288)
         inventoryBox.font = inventoryListFont
         add(inventoryBox)
 
+        // buttons
         actionButton = JButton(app.currentLocation.action)
         actionButton.bounds = Rectangle(256,282,188,55)
         actionButton.font = interactFont
@@ -357,14 +363,17 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * of the application model
      */
     fun updateView() {
+        //update location info
         locationLabel.text = "<html>" + app.currentLocation.name // new name
         descriptionLabel.text = "<html>" + app.currentLocation.description //  new description
         actionButton.text = "<html>" + app.currentLocation.action //  new action
 
 
+        // enable action button based on if an action has been taken or not
         actionButton.isEnabled = !app.currentLocation.actionTaken
 
 
+        // disable teh action button if there is no action in the location
         if (app.currentLocation.actionType == Location.ACTION_NONE) {
             actionButton.isEnabled = false
         }
@@ -373,6 +382,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             actionButton.isEnabled = false
         }
 
+        // player death
         if (app.health == 0) {
             this.isVisible = false
             deathPopUp = ActionPopUpDialog(app) // Show message
@@ -436,9 +446,11 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
 
+            // button to show the help dialog
             helpButton -> {
-                helpPopUp.isVisible = true   // And show it
+                helpPopUp.isVisible = true
             }
+
 
 
             actionButton -> {
@@ -447,7 +459,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                     Location.ACTION_COLLECT -> {
                         if (!app.currentLocation.actionTaken) {
                             app.inventory.add(app.currentLocation.item) // Add item to inventory
-                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" }
+                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" } // this puts a bullet point before each item in the inventory, this is because it will make it easier for the player to read each item
                             app.currentLocation.actionTaken = true
                             actionPopUp = ActionPopUpDialog(app) // Show pop-up with message
                             actionPopUp.isVisible = true
@@ -493,7 +505,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             actionPopUp.isVisible = true
                             helpPopUp.isVisible = false
                             checkForWin()
-                            when (app.currentLocation.direction) { // when the direction is N/S/E/W it opens the link to the new location if the key is in the inventory
+                            // unlock path if direction is specified
+                            when (app.currentLocation.direction) {
                                 "north" -> app.currentLocation.up = app.currentLocation.link
                                 "south" -> app.currentLocation.down = app.currentLocation.link
                                 "east" -> app.currentLocation.right = app.currentLocation.link
@@ -506,6 +519,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             }
 
 
+            // movement buttons
             upButton -> {
                 app.move("north")
                 app.decreaseHealth()
@@ -534,7 +548,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 }
 
 /**
- * Displays a modal dialog
+ * Displays the action dialog
  */
 class ActionPopUpDialog(val app: App): JDialog() {
 
@@ -560,12 +574,13 @@ class ActionPopUpDialog(val app: App): JDialog() {
     }
 
     /**
-     * Populate the window with controls
+     * Add content to the dialog
      */
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
 
         // Adding <html> to the label text allows it to wrap
+        // action result message
         val message = JLabel("<html> ${app.currentLocation.actionDialog}")
         message.bounds = Rectangle(25, 25, 350, 150)
         message.verticalAlignment = SwingConstants.TOP
@@ -575,6 +590,7 @@ class ActionPopUpDialog(val app: App): JDialog() {
             message.isVisible = false
         }
 
+        // death message shown if health is 0
         val deathMessage = JLabel("<html> You have died, you failed to gather all of the ingredients. GAME OVER")
         deathMessage.bounds = Rectangle(25, 25, 350, 150)
         deathMessage.verticalAlignment = SwingConstants.TOP
@@ -588,7 +604,7 @@ class ActionPopUpDialog(val app: App): JDialog() {
 }
 
 /**
- * Displays a modal dialog
+ * Displays the win dialog
  */
 class WinPopUpDialog(): JDialog() {
 
@@ -602,7 +618,7 @@ class WinPopUpDialog(): JDialog() {
     }
 
     /**
-     * Setup the dialog window
+     * adds win message to dialog
      */
     private fun configureWindow() {
         title = "Pop-Up"
@@ -633,7 +649,7 @@ class WinPopUpDialog(): JDialog() {
 }
 
 /**
- * Displays a modal dialog
+ * Displays the help dialog
  */
 class HelpPopUpDialog(): JDialog() {
 
@@ -659,7 +675,7 @@ class HelpPopUpDialog(): JDialog() {
     }
 
     /**
-     * Populate the window with controls
+     * adds help text to the dialog
      */
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
@@ -679,7 +695,7 @@ class HelpPopUpDialog(): JDialog() {
 }
 
 /**
- * Displays a modal dialog
+ * Displays the intro dialog
  */
 class IntroPopUpDialog(): JDialog() {
 
@@ -705,7 +721,7 @@ class IntroPopUpDialog(): JDialog() {
     }
 
     /**
-     * Populate the window with controls
+     * adds intro story text to dialog
      */
     private fun addControls() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
@@ -724,6 +740,9 @@ class IntroPopUpDialog(): JDialog() {
 
 }
 
+/**
+ * represents a location in the world
+ */
 class Location(
     val name: String,
     val description: String,
@@ -738,16 +757,18 @@ class Location(
 ) {
 
     companion object {
-        const val ACTION_NONE = 0
-        const val ACTION_COLLECT = 1
-        const val ACTION_USE = 2
-        const val ACTION_OPEN = 3
+        const val ACTION_NONE = 0 // No action at location
+        const val ACTION_COLLECT = 1 // Action to collect an item
+        const val ACTION_USE = 2 // Action to use an item
+        const val ACTION_OPEN = 3 // action to open a path
     }
 
-    var up: Location? = null
-    var down: Location? = null
-    var right: Location? = null
-    var left: Location? = null
+
+    // using vars instead of vals means that i can change the world such as openign doors
+    var up: Location? = null // north connection
+    var down: Location? = null // south connection
+    var right: Location? = null // east connection
+    var left: Location? = null // west connection
 
 
 }
