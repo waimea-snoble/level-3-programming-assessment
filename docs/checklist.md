@@ -9,20 +9,20 @@ This checklist can be used to gauge progress towards different levels of success
 ### Program Functionality
 
 The game functions correctly and meets the specification:
-- [x] The game is **playable**
-- [x] The game has a **GUI** with a range of controls
-- [x] The **instructions** for the game are available via the GUI
-- [x] Player provides game **inputs via the GUI** (e.g. moves, actions)
-- [x] The **current status** of the game is **shown in the GUI**, updated each player input
-- [x] The game is based on a **non-trivial map**
-- [x] The player can **move between locations**
+- [ ] The game is **playable**
+- [ ] The game has a **GUI** with a range of controls
+- [ ] The **instructions** for the game are available via the GUI
+- [ ] Player provides game **inputs via the GUI** (e.g. moves, actions)
+- [ ] The **current status** of the game is **shown in the GUI**, updated each player input
+- [ ] The game is based on a **non-trivial map**
+- [ ] The player can **move between locations**
 - [ ] The player has a **clear purpose** they can attempt to achieve
-- [x] A **win / end / loss state** is possible
+- [ ] A **win / end / loss state** is possible
 
 ### Program Code
 
 The program stores data using:
-- [x] **Variables** of at least two types (e.g. int, text, boolean)
+- [ ] **Variables** of at least two types (e.g. int, text, boolean)
 
 The program structure:
 - [ ] Defines and implements a **graphical user interface (GUI)**
@@ -30,8 +30,8 @@ The program structure:
 - [ ] Uses **functions** / **methods** to break up the code logically
 - [ ] Contains **sequences** of instructions
 - [ ] Uses **conditional** instructions to control the program flow
-- [x] Uses program **branches** (if...else, when, etc.)
-- [x] Uses **iteration** (loops) to repeat things (for, while, etc.)
+- [ ] Uses program **branches** (if...else, when, etc.)
+- [ ] Uses **iteration** (loops) to repeat things (for, while, etc.)
 
 ### Program Documentation
 
@@ -80,7 +80,7 @@ The program uses functions appropriately, where:
 ### Game GUI
 
 The game GUI:
-- [x] Adheres to **common conventions** (e.g. buttons look like buttons, etc.)
+- [ ] Adheres to **common conventions** (e.g. buttons look like buttons, etc.)
 
 ### Program Documentation
 

@@ -82,7 +82,7 @@ class App() {
         val beach = Location("Beach", "You arrive at a quiet beach where the remains of a shipwreck loom in the distance. Beneath the gentle waves, something glimmers under the water, hinting at secrets yet to be discovered.", Location.ACTION_USE, "Put on ring", "The sunken king has now granted you the ability to breath underwater", "", "King's Ring", "east", glowstoneChasm)
         val shipwreck = Location("Shipwreck", "Broken masts and torn sails lie scattered. Something valuable must still remain within the ruins.", Location.ACTION_NONE)
         val captainsQuarters = Location("Captains Quarters", "The room smells of salt and decay. A locked chest sits beneath the captain's bed", Location.ACTION_USE, "Use Key", "You opened the chest and found a mysterious ring", "King's Ring", "Captain's Key")
-        val shipDeck = Location("Ship Deck", "Skeletons litter the deck, frozen in their last stand. The captain lies impaled, still gripping something in his cold hand.", Location.ACTION_COLLECT, "Pick Up Ring", "You found the captain's key", "Captain's Key")
+        val shipDeck = Location("Ship Deck", "Skeletons litter the deck, frozen in their last stand. The captain lies impaled, still gripping something in his cold hand.", Location.ACTION_COLLECT, "Pick Up Key", "You found the captain's key", "Captain's Key")
         val leviathanGraveyard = Location("Leviathan Graveyard", "Monstrous bones spike out of the ground like jagged cliffs. A single bone fragment glows faintly with power.", Location.ACTION_COLLECT, "Pick up bone fragment", "You picked up the bone of a leviathan", "Leviathan Bone")
 
         // Connect locations
@@ -380,12 +380,6 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             exitProcess(0)
         }
 
-        if (app.inventory.contains("Water Vial") && app.inventory.contains("Frostsnap Berries") && app.inventory.contains("Flameheart Essence") && app.inventory.contains("Leviathan Bone")) {
-            this.isVisible = false
-            winPopUp = WinPopUpDialog() // Show message
-            winPopUp.isVisible = true
-            exitProcess(0)
-        }
 
 
         // Enable or disable buttons based on available paths
@@ -419,6 +413,18 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         return volWidth
     }
 
+    fun checkForWin() {
+        if (app.inventory.contains("Water Vial") &&
+            app.inventory.contains("Frostsnap Berries") &&
+            app.inventory.contains("Flameheart Essence") &&
+            app.inventory.contains("Leviathan Bone")) {
+
+            winPopUp = WinPopUpDialog()
+            winPopUp.isVisible = true
+            exitProcess(0)
+        }
+    }
+
     /**
      * Handle any UI events (e.g. button clicks)
      * Usually this involves updating the application model
@@ -443,6 +449,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             actionPopUp = ActionPopUpDialog(app) // Show pop-up with message
                             actionPopUp.isVisible = true
                             helpPopUp.isVisible = false
+                            checkForWin()
                         }
 
                     }
@@ -482,6 +489,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             actionPopUp = ActionPopUpDialog(app) // Show message like "You used the key"
                             actionPopUp.isVisible = true
                             helpPopUp.isVisible = false
+                            checkForWin()
                             when (app.currentLocation.direction) { // when the direction is N/S/E/W it opens the link to the new location if the key is in the inventory
                                 "north" -> app.currentLocation.up = app.currentLocation.link
                                 "south" -> app.currentLocation.down = app.currentLocation.link

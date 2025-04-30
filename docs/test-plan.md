@@ -5,7 +5,7 @@ The test plan lays out the actions and data I will use to test the functionality
 Terminology:
 
 - **VALID** data values are those that the program expects
-- **BOUNDARY** data values are at the limits of the valid range
+- **BOUNDARY** data values are at the limits of the valid range e.g. Move to the limits of the map, top of the map, bottom, left, right. testing that i can navigate the map boundaries to its full extent
 - **INVALID** data values are those that the program should reject e.g I cant click the button to leave the map, it is faded out
 
 ---
