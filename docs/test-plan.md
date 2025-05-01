@@ -55,7 +55,7 @@ Statement detailing what should happen.
 
 ### Expected Test Result
 
-- when the player moves left this will ba a valid move and they will move from the abandoned house into teh hallway, 
+- when the player moves left this will ba a valid move and they will move from the abandoned house into the hallway, 
   if the player tries to move through the closed attic or outside of the map nothing will happen as the button will be disabled
 
 
@@ -162,9 +162,6 @@ Statement detailing what should happen.
 - [*] Explaining the **reason** (the '**why**') of key parts of the code
 - [*] Defining function **parameters** and/or **return values**
 
-- [ ] **Constants** being used to define key values, and used throughout the program
-- [ ] Variable values being **derived at run-time** (from other variables / constants)
-- [ ] Literal values only being used if they **make sense**, and they don't impact program flexibility
 
 
 

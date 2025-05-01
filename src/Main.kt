@@ -36,7 +36,7 @@ fun main() {
  * stored, plus any application logic functions
  */
 
-class App() {
+class App {
 
 
     // the inventory is a mutable list because it means tht items can be added or removed
@@ -387,7 +387,7 @@ class App() {
     }
 
     /**
-     * Moves player to a new location in the specified direction
+     * Moves player to a new location in the specified direction (e.g 'north')
      */
     fun move(direction: String) {
         // update the current location based on the direction input
