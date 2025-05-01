@@ -25,6 +25,64 @@ The program has been tested and there is documented evidence that:
 - [ ] **Valid (expected) data** has been used to test **all data inputs**
 - [ ] Where tests have failed, **fixes** are discussed and **tests re-run**
 
+
+
+
+
+Test plan before coding
+
+## Player movement
+
+this will test all of the players movement and changing the location name, description, and item being collected will change
+
+### Test Data To Use
+
+- the player starts in the abandoned house and will try to move left, then they will try to move up into the attic
+  I have chosen these because when the player moves left this is a valid move,
+  and when they try to move into the attic without opening it this is an invalid move.
+
+- the player will move around the whole map and explore all boundaries of the map. this will include valid moves 
+  such as nothing being in the way, and invalid moves such as something being in the way e.g. locked door, or the
+  edge of the map.
+- When the player moves the current location name, description, and item being collected will change
+
+### Expected Test Result
+
+- when the player clicks on an arrow where there is no obstacle they will move to another location, however if they
+  try to move while there is an obstacle in the way e.g locked door the button will be disabled and if they click it
+  nothing will happen.
+
+
+---
+
+## Collect button
+
+- tests what will happen when the user clicks on the collect button when there is an item to be collected and when there
+  is no item to be collected.
+
+### Test Data To Use
+
+The player will click on the collect button in different locations
+
+### Expected Test Result
+
+- when the player clicks on the collect button the item they picked up will be added to the inventory, this item will be different
+  for each location
+- if there is no option to collect an item the collect button will be blank, disabled, and nothing will happen when clicked
+
+---
+
+
+
+
+
+
+
+
+
+
+Test plan after coding
+
 ---
 
 ## Game Setup
@@ -37,29 +95,35 @@ The player will click the run button to play the game
 
 ### Expected Test Result
 
-Statement detailing what should happen.
+When the player runs the game there will be a pop up explaining the back story to the game and what the player needs to do to complete it
 
 ---
 
 ## Player movement
 
-**VALID** tests whether the player can move around on the map
+**VALID** tests whether the player can move around on the map and the current location name, description, and action type will change
 **BOUNDARY** test to see if the player can explore the map boundaries to its full extent
 **INVALID** test they player trying to move through a locked path
 
 ### Test Data To Use
 
 - the player starts in the abandoned house and will try to move left, then they will try to move up into the attic
-  I have chosen these because when the player moves left this is a valid move, 
+  I have chosen these because when the player moves left this is a valid move,
   and when they try to move into the attic without opening it this is an invalid move.
+
+Or say move around whole map
 
 ### Expected Test Result
 
 - when the player moves left this will ba a valid move and they will move from the abandoned house into the hallway, 
+  resulting in the current location name, description, and action type changing,
   if the player tries to move through the closed attic or outside of the map nothing will happen as the button will be disabled
 
 
 ---
+
+- NOTE: I changed the collect button to an action button because i wanted to have different actions for each location
+- e.g. collect, use, open, or none
 
 ## Action button
 
@@ -71,7 +135,7 @@ Statement detailing what should happen.
 - the player will start at the castle wall and click the action button, 
   then move to the castle courtyard and click the action button, 
   then move to the castle mine and click the action button, 
-  then move to the castle couryard and click the action button,
+  then move to the castle courtyard and click the action button,
 - I have chosen these locations because these are locations with no action, open action, collect action, and use action
 
 ### Expected Test Result
@@ -90,11 +154,11 @@ testing what will happen when the player clicks on the help button
 
 ### Test Data To Use
 
-Details of test data and reasons for selection.
+The player will clcik on the help button in multiple locations
 
 ### Expected Test Result
 
-When the player clicks on the help button a message will pop up showing what the aim of the game is, that each button
+When the player clicks on the help button in any location, a message will pop up showing what the aim of the game is and what each button
 does/the controls, 
 
 ---
@@ -157,12 +221,11 @@ Statement detailing what should happen.
 ---
 
 
-- [*] Uses **iteration** (loops) to repeat things (for, while, etc.)
-
-- [*] Explaining the **reason** (the '**why**') of key parts of the code
-- [*] Defining function **parameters** and/or **return values**
 
 
 
 
+- [*] A test plan that **defines test data values** to be used
+- [*] Testing **regularly** throughput development, allowing **time for debugging**
 
+ctrl alt L for correct indentation

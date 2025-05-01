@@ -68,7 +68,7 @@ class App {
         )
         val attic = Location(
             "Attic",
-            "A dusty attic covered with cobwebs. A locked chest sits ominously in the corner, as if it’s been waiting for years.",
+            "A dusty attic covered with cobwebs. A chest sits ominously in the corner, as if it’s been waiting for years.",
             Location.ACTION_COLLECT,
             "Open chest",
             "You found 5 gold bars inside the chest",
@@ -117,7 +117,7 @@ class App {
             Location.ACTION_NONE
         )
         val caveExit = Location(
-            "Cave",
+            "Cave Exit",
             "You found a boulder blocking the exit.",
             Location.ACTION_OPEN,
             "Move Boulder",
@@ -129,7 +129,7 @@ class App {
         )
         val caveEntrance = Location(
             "Cave Entrance",
-            "The cave is dark but you see a light in the distance. Be careful you might get lost.",
+            "The cave is dark but you see a light in the distance.",
             Location.ACTION_NONE
         )
         val marketStall = Location(
@@ -326,8 +326,6 @@ class App {
         house.right = woods
         caveEntrance.down = trail
         caveEntrance.up = cave
-        cave.up = cave
-        cave.left = cave
         cave.down = caveEntrance
         cave.right = cave2
         cave2.right = caveExit
@@ -429,6 +427,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
     private lateinit var helpPopUp: HelpPopUpDialog
     private lateinit var introPopUp: IntroPopUpDialog
     private lateinit var winPopUp: WinPopUpDialog
+    private lateinit var hpLabel: JLabel
     private lateinit var healthBackPanel: JPanel
     private lateinit var healthLevelPanel: JPanel
     private lateinit var locationLabel: JLabel
@@ -490,6 +489,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         val inventoryFont = Font(Font.SANS_SERIF, Font.PLAIN, 25)
         val interactFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val inventoryListFont = Font(Font.SANS_SERIF, Font.PLAIN, 18)
+        val hpFont = Font(Font.SANS_SERIF, Font.PLAIN, 17)
 
         // create help button
         helpButton = JButton("Help")
@@ -498,11 +498,18 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         helpButton.addActionListener(this)     // Handle any clicks
         add(helpButton)
 
+        // displays location name
+        hpLabel = JLabel("HP")
+        hpLabel.horizontalAlignment = SwingConstants.CENTER
+        hpLabel.bounds = Rectangle(2, 5, 50, 50)
+        hpLabel.font = hpFont
+        add(hpLabel)
+
         // health bar components
         healthBackPanel = JPanel()
         healthBackPanel.bounds = Rectangle(50, 25, 450, 10)
         healthBackPanel.background = Color.BLACK
-        healthBackPanel.layout = null                // Want layout to be manual
+        healthBackPanel.layout = null
         add(healthBackPanel)
 
 
@@ -637,7 +644,8 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         if (app.inventory.contains("Water Vial") &&
             app.inventory.contains("Frostsnap Berries") &&
             app.inventory.contains("Flameheart Essence") &&
-            app.inventory.contains("Leviathan Bone")) {
+            app.inventory.contains("Leviathan Bone")
+        ) {
 
             winPopUp = WinPopUpDialog()
             winPopUp.isVisible = true
@@ -914,8 +922,8 @@ class IntroPopUpDialog() : JDialog() {
      * Setup the dialog window
      */
     private fun configureWindow() {
-        title = "Pop-Up"
-        contentPane.preferredSize = Dimension(550, 600)
+        title = "Introduction"
+        contentPane.preferredSize = Dimension(550, 300)
         isResizable = false
         isModal = true
         layout = null
@@ -956,7 +964,8 @@ class Location(
     val itemNeeded: String = "",
     val direction: String = "",
     val link: Location? = null,
-    var actionTaken: Boolean = false) {
+    var actionTaken: Boolean = false
+) {
 
     companion object {
         const val ACTION_NONE = 0 // No action at location
