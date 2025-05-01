@@ -2,7 +2,7 @@
  * =====================================================================
  * Programming Project for NCEA Level 3, Standard 91906
  * ---------------------------------------------------------------------
- * Project Name:   PROJECT NAME HERE
+ * Project Name:   The Quest for the Antidote
  * Project Author: Scott Noble
  * GitHub Repo:    https://github.com/waimea-snoble/level-3-programming-assessment
  * ---------------------------------------------------------------------
@@ -465,7 +465,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
      * Configure the main window
      */
     private fun configureWindow() {
-        title = "Kotlin Swing GUI Demo"
+        title = "The Quest for the Antidote"
         contentPane.preferredSize = Dimension(550, 600)
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         isResizable = false

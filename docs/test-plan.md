@@ -67,12 +67,11 @@ Statement detailing what should happen.
 **INVALID** tests what happens when a player clicks the action button when they are in a location with no action or they dont have the item needed to make the action
 
 ### Test Data To Use
-
-- the player will start at the path to Frostfang Peak and click the action button, 
-  then move to the castle gate and click the action button, 
+- the player will start at the bedroom and click the action button
+- the player will start at the castle wall and click the action button, 
   then move to the castle courtyard and click the action button, 
-  then move to the mine and click the action button, 
-  then move to the castle courtyard and click the action button.
+  then move to the castle mine and click the action button, 
+  then move to the castle couryard and click the action button,
 - I have chosen these locations because these are locations with no action, open action, collect action, and use action
 
 ### Expected Test Result
@@ -95,7 +94,8 @@ Details of test data and reasons for selection.
 
 ### Expected Test Result
 
-Statement detailing what should happen.
+When the player clicks on the help button a message will pop up showing what the aim of the game is, that each button
+does/the controls, 
 
 ---
 
