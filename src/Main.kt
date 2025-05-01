@@ -54,43 +54,265 @@ class App() {
     // setup the app model
     init {
         // Initialize the list with some locations
-        val woods = Location("The Woods", "You find yourself in a forest, still dazed from what had just happened.", Location.ACTION_OPEN, "Look around", "You dont recognise where you are")
-        val house = Location("Abandoned House", "A decaying house, creaking with the wind. Its windows are shattered, and the door hangs open.", Location.ACTION_NONE)
-        val attic = Location("Attic", "A dusty attic covered with cobwebs. A locked chest sits ominously in the corner, as if it’s been waiting for years.", Location.ACTION_COLLECT, "Open chest", "You found 5 gold bars inside the chest", "5 Gold Bars")
-        val hallway = Location("Hallway", "A narrow hallway, its walls cracked and flaking. A small ladder leads upward, perhaps to an attic.", Location.ACTION_OPEN, "Open entrance to attic", "You opened the attic", "", "", "north", attic)
-        val trail = Location("Trail", "A beaten path stretches into the distance. Birds chirping in the trees above, and distant mountains loom on the horizon.", Location.ACTION_NONE)
-        val bedroom = Location("Bedroom", "An old, stale room with a broken bed. The only light seeps through a window that looks like it hasn’t been opened in years.", Location.ACTION_OPEN, "Open window","The window is now open", "", "", "north", trail)
-        val cave = Location("Cave", "A cold, damp cave with echoes of dripping water. Light looming in the distance.", Location.ACTION_NONE)
-        val cave2 = Location("Cave", "A cold, damp cave with echoes of dripping water. Light looming in the distance.", Location.ACTION_NONE)
-        val village = Location("Village", "A quiet, almost lifeless village. Some doors hang ajar, and faint smoke curls from a chimney—but no one seems to be around.", Location.ACTION_NONE)
-        val caveExit = Location("Cave", "You found a boulder blocking the exit.", Location.ACTION_OPEN, "Move Boulder", "You moved the boulder", "", "", "east", village)
-        val caveEntrance = Location("Cave Entrance", "The cave is dark but you see a light in the distance. Be careful you might get lost.", Location.ACTION_NONE)
-        val marketStall = Location("Market Stall", "A tattered stall stands in the village square. A mysterious merchant eyes you warily, pointing to a glowing vial said to be from the spring of life, costing 5 gold bars.", Location.ACTION_USE, "Buy vial", "You bought the water from the spring of life", "Water Vial", "5 Gold Bars")
-        val forkInTheRoad = Location("Fork in The Road", "The path splits, one veering toward the mountains, the other disappearing towards a shadowy figure leaning against a wagon.", Location.ACTION_NONE)
-        val pathToMountain = Location("Path to Frostfang Peak", "The temperature drops as you walk. The towering castle of Frostfang Peak stands like a frozen sentinel above.", Location.ACTION_NONE)
-        val castleGate = Location("Castle Gate", "The massive gate is sealed shut, encrusted in layers of ice.", Location.ACTION_OPEN, "Shout", "There is no response")
-        val castleWall = Location("Castle Wall", "Part of the wall has collapsed, leaving a gap just wide enough to squeeze through. You may have found another way in.", Location.ACTION_NONE)
-        val throneRoom = Location("Throne Room", "A grand hall, icy and regal. A broken window lets in cold air, and hanging just within reach, Frostsnap Berries.", Location.ACTION_COLLECT, "Collect berries", "You picked up the Frostsnap berries", "Frostsnap Berries", "Pickaxe")
-        val castleCourtyard = Location("Castle Courtyard", "A courtyard frozen in time. At its far end, a wall of solid ice hides something...important.", Location.ACTION_USE, "Break through ice", "You used the pickaxe to break through", "", "Pickaxe", "north", throneRoom)
-        val mine = Location("Mine", "The mine shaft is quiet except for the occasional creak of timber. A lifeless body lies crumpled near the wall, with a pickaxe still in his hand.", Location.ACTION_COLLECT, "Pick Up", "You found a pickaxe", "Pickaxe")
-        val topOfDarkfireDepths = Location("Top of Darkfire Depths", "Looking down from the top, a vast abyss stretches below. The heat rising is oppressive, like something ancient stirs beneath.", Location.ACTION_NONE)
-        val wagon = Location("Man on a wagon", "A man leaning against a wagon, saying he can give you a ride to Darkfire Depths, but only if you give him a rare diamond only found in Frostfang Peak", Location.ACTION_USE, "Give diamond", "Thank you, you can now go to Darkfire Depths", "", "Diamond", "east", topOfDarkfireDepths)
+        val woods = Location(
+            "The Woods",
+            "You find yourself in a forest, still dazed from what had just happened.",
+            Location.ACTION_OPEN,
+            "Look around",
+            "You dont recognise where you are"
+        )
+        val house = Location(
+            "Abandoned House",
+            "A decaying house, creaking with the wind. Its windows are shattered, and the door hangs open.",
+            Location.ACTION_NONE
+        )
+        val attic = Location(
+            "Attic",
+            "A dusty attic covered with cobwebs. A locked chest sits ominously in the corner, as if it’s been waiting for years.",
+            Location.ACTION_COLLECT,
+            "Open chest",
+            "You found 5 gold bars inside the chest",
+            "5 Gold Bars"
+        )
+        val hallway = Location(
+            "Hallway",
+            "A narrow hallway, its walls cracked and flaking. A small ladder leads upward, perhaps to an attic.",
+            Location.ACTION_OPEN,
+            "Open entrance to attic",
+            "You opened the attic",
+            "",
+            "",
+            "north",
+            attic
+        )
+        val trail = Location(
+            "Trail",
+            "A beaten path stretches into the distance. Birds chirping in the trees above, and distant mountains loom on the horizon.",
+            Location.ACTION_NONE
+        )
+        val bedroom = Location(
+            "Bedroom",
+            "An old, stale room with a broken bed. The only light seeps through a window that looks like it hasn’t been opened in years.",
+            Location.ACTION_OPEN,
+            "Open window",
+            "The window is now open",
+            "",
+            "",
+            "north",
+            trail
+        )
+        val cave = Location(
+            "Cave",
+            "A cold, damp cave with echoes of dripping water. Light looming in the distance.",
+            Location.ACTION_NONE
+        )
+        val cave2 = Location(
+            "Cave",
+            "A cold, damp cave with echoes of dripping water. Light looming in the distance.",
+            Location.ACTION_NONE
+        )
+        val village = Location(
+            "Village",
+            "A quiet, almost lifeless village. Some doors hang ajar, and faint smoke curls from a chimney—but no one seems to be around.",
+            Location.ACTION_NONE
+        )
+        val caveExit = Location(
+            "Cave",
+            "You found a boulder blocking the exit.",
+            Location.ACTION_OPEN,
+            "Move Boulder",
+            "You moved the boulder",
+            "",
+            "",
+            "east",
+            village
+        )
+        val caveEntrance = Location(
+            "Cave Entrance",
+            "The cave is dark but you see a light in the distance. Be careful you might get lost.",
+            Location.ACTION_NONE
+        )
+        val marketStall = Location(
+            "Market Stall",
+            "A tattered stall stands in the village square. A mysterious merchant eyes you warily, pointing to a glowing vial said to be from the spring of life, costing 5 gold bars.",
+            Location.ACTION_USE,
+            "Buy vial",
+            "You bought the water from the spring of life",
+            "Water Vial",
+            "5 Gold Bars"
+        )
+        val forkInTheRoad = Location(
+            "Fork in The Road",
+            "The path splits, one veering toward the mountains, the other disappearing towards a shadowy figure leaning against a wagon.",
+            Location.ACTION_NONE
+        )
+        val pathToMountain = Location(
+            "Path to Frostfang Peak",
+            "The temperature drops as you walk. The towering castle of Frostfang Peak stands like a frozen sentinel above.",
+            Location.ACTION_NONE
+        )
+        val castleGate = Location(
+            "Castle Gate",
+            "The massive gate is sealed shut, encrusted in layers of ice.",
+            Location.ACTION_OPEN,
+            "Shout",
+            "There is no response"
+        )
+        val castleWall = Location(
+            "Castle Wall",
+            "Part of the wall has collapsed, leaving a gap just wide enough to squeeze through. You may have found another way in.",
+            Location.ACTION_NONE
+        )
+        val throneRoom = Location(
+            "Throne Room",
+            "A grand hall, icy and regal. A broken window lets in cold air, and hanging just within reach, Frostsnap Berries.",
+            Location.ACTION_COLLECT,
+            "Collect berries",
+            "You picked up the Frostsnap berries",
+            "Frostsnap Berries",
+            "Pickaxe"
+        )
+        val castleCourtyard = Location(
+            "Castle Courtyard",
+            "A courtyard frozen in time. At its far end, a wall of solid ice hides something...important.",
+            Location.ACTION_USE,
+            "Break through ice",
+            "You used the pickaxe to break through",
+            "",
+            "Pickaxe",
+            "north",
+            throneRoom
+        )
+        val mine = Location(
+            "Mine",
+            "The mine shaft is quiet except for the occasional creak of timber. A lifeless body lies crumpled near the wall, with a pickaxe still in his hand.",
+            Location.ACTION_COLLECT,
+            "Pick Up",
+            "You found a pickaxe",
+            "Pickaxe"
+        )
+        val topOfDarkfireDepths = Location(
+            "Top of Darkfire Depths",
+            "Looking down from the top, a vast abyss stretches below. The heat rising is oppressive, like something ancient stirs beneath.",
+            Location.ACTION_NONE
+        )
+        val wagon = Location(
+            "Man on a wagon",
+            "A man leaning against a wagon, saying he can give you a ride to Darkfire Depths, but only if you give him a rare diamond only found in Frostfang Peak",
+            Location.ACTION_USE,
+            "Give diamond",
+            "Thank you, you can now go to Darkfire Depths",
+            "",
+            "Diamond",
+            "east",
+            topOfDarkfireDepths
+        )
         val deepInTheMine = Location("Deep in the Mine", "", Location.ACTION_NONE)
-        val deadEnd = Location("Dead End", "Rocks block the path ahead, no sign of anything useful.", Location.ACTION_NONE)
-        val minecart = Location("Minecart", "A rusted minecart rests on broken tracks. Inside, a bag, maybe a forgotten treasure?", Location.ACTION_COLLECT, "Search the bag", "You found a diamond in the bag", "Diamond")
-        val coreOfEternalFlame = Location("Core of Eternal Flame", "At the heart of the abyss, molten light bathes the room. A dragon bone flask pulses with the flameheart essence.", Location.ACTION_COLLECT, "Pick up flask", "You picked up the flask", "Flameheart Essence")
-        val door = Location("Door", "You climbed down into dark fire depths where a large glowing etched ith glowing runes blocks your path", Location.ACTION_USE, "Use Key", "You opened the door", "", "Ashen Key", "east", coreOfEternalFlame)
-        val beachCave = Location("Beach Cave", "A steep climb leads up through the cave to a ledge. You could jump to the beach below, but there will be no way back", Location.ACTION_NONE)
-        val starlitCavern = Location("Starlit cavern", "Crystals shimmer with light. A peculiar pattern on the wall suggests something can be revealed.", Location.ACTION_OPEN, "Align crystals", "You opened a secret path", "", "", "south", beachCave)
-        val obsidianSpire = Location("Obsidian Spire", "A spiraling descent into darkness carved from black volcanic glass. The deeper you go, the hotter it becomes, each step echoing like a warning through the hollow, cursed stone.", Location.ACTION_NONE)
-        val ashenForge = Location("Ashen Forge", "You find an ancient forge, flames roar beneath a stone anvil.", Location.ACTION_COLLECT, "Pull Lever", "Lava comes pouring down into a mold where the ashen key is made", "Ashen Key")
+        val deadEnd =
+            Location("Dead End", "Rocks block the path ahead, no sign of anything useful.", Location.ACTION_NONE)
+        val minecart = Location(
+            "Minecart",
+            "A rusted minecart rests on broken tracks. Inside, a bag, maybe a forgotten treasure?",
+            Location.ACTION_COLLECT,
+            "Search the bag",
+            "You found a diamond in the bag",
+            "Diamond"
+        )
+        val coreOfEternalFlame = Location(
+            "Core of Eternal Flame",
+            "At the heart of the abyss, molten light bathes the room. A dragon bone flask pulses with the flameheart essence.",
+            Location.ACTION_COLLECT,
+            "Pick up flask",
+            "You picked up the flask",
+            "Flameheart Essence"
+        )
+        val door = Location(
+            "Door",
+            "You climbed down into dark fire depths where a large glowing etched ith glowing runes blocks your path",
+            Location.ACTION_USE,
+            "Use Key",
+            "You opened the door",
+            "",
+            "Ashen Key",
+            "east",
+            coreOfEternalFlame
+        )
+        val beachCave = Location(
+            "Beach Cave",
+            "A steep climb leads up through the cave to a ledge. You could jump to the beach below, but there will be no way back",
+            Location.ACTION_NONE
+        )
+        val starlitCavern = Location(
+            "Starlit cavern",
+            "Crystals shimmer with light. A peculiar pattern on the wall suggests something can be revealed.",
+            Location.ACTION_OPEN,
+            "Align crystals",
+            "You opened a secret path",
+            "",
+            "",
+            "south",
+            beachCave
+        )
+        val obsidianSpire = Location(
+            "Obsidian Spire",
+            "A spiraling descent into darkness carved from black volcanic glass. The deeper you go, the hotter it becomes, each step echoing like a warning through the hollow, cursed stone.",
+            Location.ACTION_NONE
+        )
+        val ashenForge = Location(
+            "Ashen Forge",
+            "You find an ancient forge, flames roar beneath a stone anvil.",
+            Location.ACTION_COLLECT,
+            "Pull Lever",
+            "Lava comes pouring down into a mold where the ashen key is made",
+            "Ashen Key"
+        )
         val field = Location("Field", "A wide-open field, peaceful and calm.", Location.ACTION_NONE)
-        val glowstoneChasm = Location("Glowstone Chasm", "Deep beneath the surface, glowing stones line the walls of a vast underwater chasm. Their light cuts through the darkness, revealing a seemingly endless drop into the unknown.", Location.ACTION_NONE)
-        val beach = Location("Beach", "You arrive at a quiet beach where the remains of a shipwreck loom in the distance. Beneath the gentle waves, something glimmers under the water, hinting at secrets yet to be discovered.", Location.ACTION_USE, "Put on ring", "The sunken king has now granted you the ability to breath underwater", "", "King's Ring", "east", glowstoneChasm)
-        val shipwreck = Location("Shipwreck", "Broken masts and torn sails lie scattered. Something valuable must still remain within the ruins.", Location.ACTION_NONE)
-        val captainsQuarters = Location("Captains Quarters", "The room smells of salt and decay. A locked chest sits beneath the captain's bed", Location.ACTION_USE, "Use Key", "You opened the chest and found a mysterious ring", "King's Ring", "Captain's Key")
-        val shipDeck = Location("Ship Deck", "Skeletons litter the deck, frozen in their last stand. The captain lies impaled, still gripping something in his cold hand.", Location.ACTION_COLLECT, "Pick Up Key", "You found the captain's key", "Captain's Key")
-        val leviathanGraveyard = Location("Leviathan Graveyard", "Monstrous bones spike out of the ground like jagged cliffs. A single bone fragment glows faintly with power.", Location.ACTION_COLLECT, "Pick up bone fragment", "You picked up the bone of a leviathan", "Leviathan Bone")
+        val glowstoneChasm = Location(
+            "Glowstone Chasm",
+            "Deep beneath the surface, glowing stones line the walls of a vast underwater chasm. Their light cuts through the darkness, revealing a seemingly endless drop into the unknown.",
+            Location.ACTION_NONE
+        )
+        val beach = Location(
+            "Beach",
+            "You arrive at a quiet beach where the remains of a shipwreck loom in the distance. Beneath the gentle waves, something glimmers under the water, hinting at secrets yet to be discovered.",
+            Location.ACTION_USE,
+            "Put on ring",
+            "The sunken king has now granted you the ability to breath underwater",
+            "",
+            "King's Ring",
+            "east",
+            glowstoneChasm
+        )
+        val shipwreck = Location(
+            "Shipwreck",
+            "Broken masts and torn sails lie scattered. Something valuable must still remain within the ruins.",
+            Location.ACTION_NONE
+        )
+        val captainsQuarters = Location(
+            "Captains Quarters",
+            "The room smells of salt and decay. A locked chest sits beneath the captain's bed",
+            Location.ACTION_USE,
+            "Use Key",
+            "You opened the chest and found a mysterious ring",
+            "King's Ring",
+            "Captain's Key"
+        )
+        val shipDeck = Location(
+            "Ship Deck",
+            "Skeletons litter the deck, frozen in their last stand. The captain lies impaled, still gripping something in his cold hand.",
+            Location.ACTION_COLLECT,
+            "Pick Up Key",
+            "You found the captain's key",
+            "Captain's Key"
+        )
+        val leviathanGraveyard = Location(
+            "Leviathan Graveyard",
+            "Monstrous bones spike out of the ground like jagged cliffs. A single bone fragment glows faintly with power.",
+            Location.ACTION_COLLECT,
+            "Pick up bone fragment",
+            "You picked up the bone of a leviathan",
+            "Leviathan Bone"
+        )
 
         // Connect locations to create map
         woods.left = house
@@ -102,7 +324,7 @@ class App() {
         trail.up = caveEntrance
         trail.down = bedroom
         house.right = woods
-        caveEntrance.down =trail
+        caveEntrance.down = trail
         caveEntrance.up = cave
         cave.up = cave
         cave.left = cave
@@ -168,7 +390,6 @@ class App() {
      * Moves player to a new location in the specified direction
      */
     fun move(direction: String) {
-
         // update the current location based on the direction input
         // I used when() because it easier to read than if else chains
         val newLocation = when (direction) {
@@ -177,15 +398,12 @@ class App() {
             "east" -> currentLocation.right
             "west" -> currentLocation.left
             else -> null
-
         }
 
         // update the current location if move is valid
         if (newLocation != null) {
             currentLocation = newLocation
         }
-
-
     }
 
     /**
@@ -194,10 +412,6 @@ class App() {
     fun decreaseHealth() {
         health-- // this decreases the health by one every move due to the posion
     }
-
-
-
-
 
 
 }
@@ -279,7 +493,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         // create help button
         helpButton = JButton("Help")
-        helpButton.bounds = Rectangle(40,487, 150, 50)
+        helpButton.bounds = Rectangle(40, 487, 150, 50)
         helpButton.font = baseFont
         helpButton.addActionListener(this)     // Handle any clicks
         add(helpButton)
@@ -327,31 +541,31 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
 
         // buttons
         actionButton = JButton(app.currentLocation.action)
-        actionButton.bounds = Rectangle(256,282,188,55)
+        actionButton.bounds = Rectangle(256, 282, 188, 55)
         actionButton.font = interactFont
         actionButton.addActionListener(this)     // Handle any clicks
         add(actionButton)
 
         upButton = JButton("\uD83E\uDC71")
-        upButton.bounds = Rectangle(320,363,60,80)
+        upButton.bounds = Rectangle(320, 363, 60, 80)
         upButton.font = baseFont
         upButton.addActionListener(this)     // Handle any clicks
         add(upButton)
 
         downButton = JButton("\uD83E\uDC73")
-        downButton.bounds = Rectangle(320,459,60,80)
+        downButton.bounds = Rectangle(320, 459, 60, 80)
         downButton.font = baseFont
         downButton.addActionListener(this)     // Handle any clicks
         add(downButton)
 
         leftButton = JButton("\uD83E\uDC70")
-        leftButton.bounds = Rectangle(226,479,80,60)
+        leftButton.bounds = Rectangle(226, 479, 80, 60)
         leftButton.font = baseFont
         leftButton.addActionListener(this)     // Handle any clicks
         add(leftButton)
 
         rightButton = JButton("\uD83E\uDC72")
-        rightButton.bounds = Rectangle(394,479,80,60)
+        rightButton.bounds = Rectangle(394, 479, 80, 60)
         rightButton.font = baseFont
         rightButton.addActionListener(this)     // Handle any clicks
         add(rightButton)
@@ -391,18 +605,11 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
         }
 
 
-
         // Enable or disable buttons based on available paths
         upButton.isEnabled = app.currentLocation.up != null
         downButton.isEnabled = app.currentLocation.down != null
         leftButton.isEnabled = app.currentLocation.left != null
         rightButton.isEnabled = app.currentLocation.right != null
-
-
-
-
-
-
 
 
         // Sizes of the health bar
@@ -452,14 +659,14 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
             }
 
 
-
             actionButton -> {
 
                 when (app.currentLocation.actionType) {
                     Location.ACTION_COLLECT -> {
                         if (!app.currentLocation.actionTaken) {
                             app.inventory.add(app.currentLocation.item) // Add item to inventory
-                            inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" } // this puts a bullet point before each item in the inventory, this is because it will make it easier for the player to read each item
+                            inventoryBox.text =
+                                "<html>" + app.inventory.joinToString("<br>") { "• $it" } // this puts a bullet point before each item in the inventory, this is because it will make it easier for the player to read each item
                             app.currentLocation.actionTaken = true
                             actionPopUp = ActionPopUpDialog(app) // Show pop-up with message
                             actionPopUp.isVisible = true
@@ -493,10 +700,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                             // Remove the item from the inventory after use
                             app.inventory.remove(app.currentLocation.itemNeeded)
                             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" }
-                            if (app.currentLocation.item == "") {
-
-                            }
-                            else {
+                            if (app.currentLocation.item != "") {
                                 app.inventory.add(app.currentLocation.item) // Add item to inventory
                                 inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" }
                             }
@@ -524,33 +728,30 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                 app.move("north")
                 app.decreaseHealth()
             }
+
             downButton -> {
                 app.move("south")
                 app.decreaseHealth()
             }
+
             leftButton -> {
                 app.move("west")
                 app.decreaseHealth()
             }
+
             rightButton -> {
                 app.move("east")
                 app.decreaseHealth()
             }
-
-
         }
-
         updateView()  // Refresh UI after moving
     }
-
-
-
 }
 
 /**
  * Displays the action dialog
  */
-class ActionPopUpDialog(val app: App): JDialog() {
+class ActionPopUpDialog(val app: App) : JDialog() {
 
     /**
      * Configure the UI
@@ -606,7 +807,7 @@ class ActionPopUpDialog(val app: App): JDialog() {
 /**
  * Displays the win dialog
  */
-class WinPopUpDialog(): JDialog() {
+class WinPopUpDialog() : JDialog() {
 
     /**
      * Configure the UI
@@ -651,7 +852,7 @@ class WinPopUpDialog(): JDialog() {
 /**
  * Displays the help dialog
  */
-class HelpPopUpDialog(): JDialog() {
+class HelpPopUpDialog() : JDialog() {
 
     /**
      * Configure the UI
@@ -682,7 +883,8 @@ class HelpPopUpDialog(): JDialog() {
 
 
         // Adding <html> to the label text allows it to wrap
-        val helpMessage = JLabel("<html> The aim of the game is to find the four ingredients Water from the spring of life, Frostsnap Berries, Flameheart Essence, and a bone of a leviathan. You can move around the map by using the arrow buttons on the screen and there is an action button above the arrows to interact with the location you are currently at.")
+        val helpMessage =
+            JLabel("<html> The aim of the game is to find the four ingredients Water from the spring of life, Frostsnap Berries, Flameheart Essence, and a bone of a leviathan. You can move around the map by using the arrow buttons on the screen and there is an action button above the arrows to interact with the location you are currently at.")
         helpMessage.bounds = Rectangle(25, 25, 350, 150)
         helpMessage.verticalAlignment = SwingConstants.TOP
         helpMessage.font = baseFont
@@ -697,7 +899,7 @@ class HelpPopUpDialog(): JDialog() {
 /**
  * Displays the intro dialog
  */
-class IntroPopUpDialog(): JDialog() {
+class IntroPopUpDialog() : JDialog() {
 
     /**
      * Configure the UI
@@ -728,7 +930,8 @@ class IntroPopUpDialog(): JDialog() {
 
 
         // Adding <html> to the label text allows it to wrap
-        val introMessage = JLabel("<html> You awaken in a cold sweat, heart pounding, a bitter taste clinging to your tongue. A shadowy figure’s last words echo in your mind. The poison is already inside you. If you want to live you’ll have to find the cure yourself. Your body weakens with every passing moment. Somewhere out there, hidden in dark forests, crumbling ruins, and forgotten places, are the rare ingredients you need to create the antidote. Time is against you. Trust no one. Every decision matters. Find the ingredients, brew the cure, or succumb to the poison.")
+        val introMessage =
+            JLabel("<html> You awaken in a cold sweat, heart pounding, a bitter taste clinging to your tongue. A shadowy figure’s last words echo in your mind. The poison is already inside you. If you want to live you’ll have to find the cure yourself. Your body weakens with every passing moment. Somewhere out there, hidden in dark forests, crumbling ruins, and forgotten places, are the rare ingredients you need to create the antidote. Time is against you. Trust no one. Every decision matters. Find the ingredients, brew the cure, or succumb to the poison.")
         introMessage.bounds = Rectangle(50, 50, 450, 600)
         introMessage.verticalAlignment = SwingConstants.TOP
         introMessage.font = baseFont
@@ -753,8 +956,7 @@ class Location(
     val itemNeeded: String = "",
     val direction: String = "",
     val link: Location? = null,
-    var actionTaken: Boolean = false
-) {
+    var actionTaken: Boolean = false) {
 
     companion object {
         const val ACTION_NONE = 0 // No action at location
