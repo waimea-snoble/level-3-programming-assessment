@@ -28,5 +28,6 @@ The project is written in the [Kotlin](https://kotlinlang.org) programming langu
 
 ## Project Description
 
-**PLACE YOUR PROJECT DESCRIPTION HERE**
+The Quest for the Antidote is a game where the player has been poisoned and they need to find all of the special ingredients 
+in order to make an intidote and survive
 

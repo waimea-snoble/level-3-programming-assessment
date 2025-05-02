@@ -4,17 +4,17 @@ The test results show the actual outcome of the testing, following the [Test Pla
 
 ---
 
-## Game Setup
+## Game Setup and game close
 
-Example test description.
+testing what happens when the player runs the game and closes the game
 
-### Test Data Used
+### Test Data To Use
 
-Details of test data.
+The player will click the run button to play the game and then click on the X button on the top right corner to close the game
 
 ### Test Result
 
-![example.png](screenshots/example.png)
+https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/Efpc5stUJuFHtMBjvpjyNhIBfCRlxYTK_Mk-5yg5C0rCnA?e=yZCDio
 
 Comment on test result.
 
@@ -46,7 +46,7 @@ Details of test data.
 
 ### Test Result
 
-https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/EUCUp1joPklAvl2ZZw3-m6QBb1T3Se0yQl4yjcI4WyD1SA?e=b1RVHm
+https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/EZRFUkys-N5NuNWqhrBylI0BRig2JHyUZ_N8ROfUfeYviQ?e=vFl586
 
 Comment on test result.
 
@@ -62,7 +62,7 @@ Details of test data.
 
 ### Test Result
 
-![example.png](screenshots/example.png)
+https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/EcineLwzEcxPjrCDHuTQBtkBpj4HuK3gBif7kE8XMupJrw?e=ABigoj
 
 Comment on test result.
 
@@ -78,9 +78,13 @@ Details of test data.
 
 ### Test Result
 
-![example.png](screenshots/example.png)
+https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/EWmzyhqHzldPpzd1xgzV0SgBl7A4aiSDjjTlFnKKzufCDg?e=oVBfXR
 
-Comment on test result.
+My test failed so i checked my code and I realised that the one of the items the player picks up is Frostsnap Berries (uppercase b)
+but for the player to win they needed Frostsnap berries (lowercase b) i fixed this and did the test again
+
+https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/snoble_waimea_school_nz/Ec6fs4sKoERKuEfFEmAU51kB7huQ752_blSMddrAtZu6xg?e=8F6bpn
+I fixed the issue and now it works
 
 ---
 

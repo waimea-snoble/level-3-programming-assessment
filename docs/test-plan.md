@@ -85,17 +85,18 @@ Test plan after coding
 
 ---
 
-## Game Setup
+## Game Setup and game close
 
-testing what happens when the player runs the game
+testing what happens when the player runs the game and closes the game
 
 ### Test Data To Use
 
-The player will click the run button to play the game
+The player will click the run button to play the game and then click on the X button on the top right corner to close the game
 
 ### Expected Test Result
 
 When the player runs the game there will be a pop up explaining the back story to the game and what the player needs to do to complete it
+when the player clicks on the X button on the top right the game window will close and the game will end
 
 ---
 
@@ -144,7 +145,7 @@ Or say move around whole map
   when the  player clicks the action button at the castle gate there will be a message saying "There is no response", 
   when the player clicks the action button in the castle courtyard nothing will happen, 
   when the player clicks the action button in the mine there will be a message saying "You found a pickaxe" and the pickaxe will be added to the players inventory, 
-  when the player clicks the action button in the castle courtyard after picking up the pickaxe there will be a message saying "You used the pickaxe to break through" resulting in a new path being unlocked
+  when the player clicks the action button in the castle courtyard after picking up the pickaxe there will be a message saying "You used the pickaxe to break through", removing the pickaxe from the inventory resulting in a new path being unlocked
 
 ---
 
