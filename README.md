@@ -8,13 +8,9 @@ This is a programming project for **NCEA Level 3**, assessed against standard [9
 
 The project is written in the [Kotlin](https://kotlinlang.org) programming language and demonstrates a number of **complex programming techniques**:
 - Programming a graphical user interface (GUI)
-- (X)Reading from, or writing to, files
 - Object-oriented programming (OOP) classes and objects
-- (X)Self-defined types
-- (X)Using non-core API, library or framework 
-- (X)Using complex data structures (e.g. stacks, queues, trees)
 
-** EDIT LIST ABOVE TO MATCH YOUR PROJECT**
+
 
 ---
 
@@ -29,5 +25,5 @@ The project is written in the [Kotlin](https://kotlinlang.org) programming langu
 ## Project Description
 
 The Quest for the Antidote is a game where the player has been poisoned and they need to find all of the special ingredients 
-in order to make an intidote and survive
+in order to make an antidote and survive
 

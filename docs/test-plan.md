@@ -9,27 +9,7 @@ Terminology:
 - **INVALID** data values are those that the program should reject e.g I cant click the button to leave the map, it is faded out
 
 
-
-**VALID**
-**BOUNDARY**
-**INVALID**
-
-The program has been tested and there is documented evidence that:
-- [ ] The game is **fully functional**, showing testing of:
-    - [ ] game setup
-    - [ ] player movement
-    - [ ] other player actions
-    - [ ] scoring (if any)
-    - [ ] player win / lose states
-    - [ ] final feedback (if appropriate)
-- [ ] **Valid (expected) data** has been used to test **all data inputs**
-- [ ] Where tests have failed, **fixes** are discussed and **tests re-run**
-
-
-
-
-
-Test plan before coding
+brief Test plan before coding
 
 ## Player movement
 
@@ -37,14 +17,8 @@ this will test all of the players movement and changing the location name, descr
 
 ### Test Data To Use
 
-- the player starts in the abandoned house and will try to move left, then they will try to move up into the attic
-  I have chosen these because when the player moves left this is a valid move,
-  and when they try to move into the attic without opening it this is an invalid move.
+- I will be moving around the map to test the movement in all directions and the location name, description, and collect text will change
 
-- the player will move around the whole map and explore all boundaries of the map. this will include valid moves 
-  such as nothing being in the way, and invalid moves such as something being in the way e.g. locked door, or the
-  edge of the map.
-- When the player moves the current location name, description, and item being collected will change
 
 ### Expected Test Result
 
@@ -73,25 +47,18 @@ The player will click on the collect button in different locations
 ---
 
 
-
-
-
-
-
-
-
-
 Test plan after coding
 
 ---
 
 ## Game Setup and game close
 
-testing what happens when the player runs the game and closes the game
+**VALID** testing what happens when the player runs the game and closes the game
 
 ### Test Data To Use
 
 The player will click the run button to play the game and then click on the X button on the top right corner to close the game
+i have chosen this to 
 
 ### Expected Test Result
 
@@ -108,25 +75,26 @@ when the player clicks on the X button on the top right the game window will clo
 
 ### Test Data To Use
 
-- the player starts in the abandoned house and will try to move left, then they will try to move up into the attic
-  I have chosen these because when the player moves left this is a valid move,
-  and when they try to move into the attic without opening it this is an invalid move.
+- I will be moving around the whole map which will show me moving through an open path e.g. the woods to teh abandoned house,
+  as well as me trying to move through a blocked path e.g. moving through the closed attic, and also me testing all of the map boundaries.
+  when i move between locations this will also change the current location name, description, and the action button name and type
+- i have chosen to go to every location to show the valid and invalid moves and that the player can not leave the map
 
-Or say move around whole map
+
 
 ### Expected Test Result
 
 - when the player moves left this will ba a valid move and they will move from the abandoned house into the hallway, 
   resulting in the current location name, description, and action type changing,
   if the player tries to move through the closed attic or outside of the map nothing will happen as the button will be disabled
+- i have chosen this data because the player can freely move, as well as there being a blocked path
 
 
 ---
 
-- NOTE: I changed the collect button to an action button because i wanted to have different actions for each location
-- e.g. collect, use, open, or none
+- NOTE: I changed the collect button to an action button because i wanted to have different actions for each location e.g. collect, use, open, or none
 
-## Action button
+## Action button and item being added to inventory
 
 **VALID** tests what happens when a player clicks the action button when an action is available
 **INVALID** tests what happens when a player clicks the action button when they are in a location with no action or they dont have the item needed to make the action
@@ -151,11 +119,12 @@ Or say move around whole map
 
 ## Help button
 
-testing what will happen when the player clicks on the help button
+**VALID** testing what will happen when the player clicks on the help button
 
 ### Test Data To Use
 
 The player will clcik on the help button in multiple locations
+I have chosen multiple locations to show that it doesn't matter where the player is, they can get help anywhere
 
 ### Expected Test Result
 
@@ -172,8 +141,9 @@ does/the controls,
 ### Test Data To Use
 
 - the player will move around the map and collect the water from the spring of life, 
-  the frostsnap berries, the flameheart essence, amd the leviathan bone
--
+  the frostsnap berries, the flameheart essence, and the leviathan bone
+- i have chosen this data because these are the key items the player needs in their inventory in order to win
+
 
 ### Expected Test Result
 
@@ -194,8 +164,9 @@ won and they will continue to play the game
 
 ### Test Data To Use
 
-**VALID** The player will move between two locations until the players health reaches 0
-**INVALID** the player will not move
+- The player will move between locations up, down, left and right until the players health reaches 0
+- the player will not move
+- I have chosen multple locations to show that it works for avery direction
 
 ### Expected Test Result
 
@@ -207,26 +178,18 @@ won and they will continue to play the game
 
 ---
 
-## Example Test Name
+## clicking on the game while on a popup
 
-Example test description.
+**INVALID** test clicking on the game buttons while a popup is visible
 
 ### Test Data To Use
 
-Details of test data and reasons for selection.
+I am going to click on a button while the intro pop up, help pop up, action popup, lose pop up, and win popup are visible
+i have chosen these to show that it works for every pop up
 
 ### Expected Test Result
 
-Statement detailing what should happen.
+When i click on a button while a popup is visible nothing will happen and the outline of the popup will flash
+indicating it is still there
 
 ---
-
-
-
-
-
-
-- [*] A test plan that **defines test data values** to be used
-- [*] Testing **regularly** throughput development, allowing **time for debugging**
-
-ctrl alt L for correct indentation

@@ -706,7 +706,7 @@ class MainWindow(val app: App) : JFrame(), ActionListener {
                         // Example: If using a key, check if it's in inventory
                         if (app.inventory.contains(app.currentLocation.itemNeeded)) {
                             // Remove the item from the inventory after use
-                            app.inventory.remove(app.currentLocation.item)
+                            app.inventory.remove(app.currentLocation.itemNeeded)
                             inventoryBox.text = "<html>" + app.inventory.joinToString("<br>") { "• $it" }
                             if (app.currentLocation.item != "") {
                                 app.inventory.add(app.currentLocation.item) // Add item to inventory
@@ -892,7 +892,7 @@ class HelpPopUpDialog() : JDialog() {
 
         // Adding <html> to the label text allows it to wrap
         val helpMessage =
-            JLabel("<html> Aim: <br>" + "The aim of the game is to find the four ingredients Water from the spring of life, Frostsnap Berries, Flameheart Essence, and a bone of a leviathan, before you die from the poison. <br>" + "Controls: <br>" + "You can move around the map by using the arrow buttons on the screen and there is an action button above the arrows to interact with the location you are currently at. If the action button has text in it but is disabled it means that you have already used it or you havn't found the item required to do the action.")
+            JLabel("<html> Aim: <br>" + "The aim of the game is to find the four ingredients Water from the spring of life, Frostsnap Berries, Flameheart Essence, and a bone of a leviathan, before you die from the poison. <br>" + "Controls: <br>" + "You can move around the map by using the arrow buttons on the screen and there is an action button above the arrows to interact with the location you are currently at. If the action button has text in it but is disabled it means that you have already used it or you havn't found the item required to do the action. the red HP line at the top is your health, and will decrease after every move due to the poison")
         helpMessage.bounds = Rectangle(25, 25, 350, 250)
         helpMessage.verticalAlignment = SwingConstants.TOP
         helpMessage.font = baseFont
