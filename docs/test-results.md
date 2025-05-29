@@ -35,7 +35,7 @@ Comment on test result.
 
 ### Test Result
 
-![player movement.gif](screenshots/player movement.gif)
+![player movement.gif](<screenshots/player movement.gif>)
 
 This all works as i intended
 
@@ -56,10 +56,10 @@ This all works as i intended
 
 ### Test Result
 
-![Action button test.gif](screenshots/Action button test.gif)
+![Action button test.gif](<screenshots/Action button test.gif>)
 
 Every button works as intended, but the item isnt removed from the inventory when i clicked on the use button
-![Action button test fixed.gif](screenshots/Action button test fixed.gif)
+![Action button test fixed.gif](<screenshots/Action button test fixed.gif>)
 ---
 
 ## Help button
@@ -73,7 +73,7 @@ I have chosen multiple locations to show that it doesn't matter where the player
 
 ### Test Result
 
-![help button.gif](screenshots/help button.gif)
+![help button.gif](<screenshots/help button.gif>)
 
 this works as i intended
 
@@ -117,7 +117,7 @@ I fixed the issue and now it works
 
 ### Test Result
 
-![decrease health and death.gif](screenshots/decrease health and death.gif)
+![decrease health and death.gif](<screenshots/decrease health and death.gif>)
 
 Comment on test result.
 
@@ -134,7 +134,7 @@ i have chosen these to show that it works for every pop up
 
 ### Test Result
 
-![popup button press.gif](screenshots/popup button press.gif)
+![popup button press.gif](<screenshots/popup button press.gif>)
 
 this works as intended
 
